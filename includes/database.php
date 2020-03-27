@@ -18,12 +18,12 @@ class database implements DB_interface
 		//$sql = "SELECT * FROM user_detail";
 		$result = mysqli_query($this->connect, $sql);
 
-		//if (mysqli_num_rows($result) > 0) {
+		if (mysqli_num_rows($result) > 0) {
 		    while($row = mysqli_fetch_assoc($result)) {
 		        echo "Username: ".$row["username"]." Email: ".$row["email"]." Contact: ".$row["mobileNo"]. "<br>";
 
 		    }
-		//}
+		}
 	}
 
 	public function selectOne($sql){

@@ -19,4 +19,4 @@ require_once __DIR__ . "/models/Posts.php";
 
 $db = new database();
 $sql = "SELECT * FROM user_detail";
-$db->selectOne($sql);
+$db->selectAll($sql);
