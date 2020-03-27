@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Posts list
+        </title>
+    </head>
+    <body>
+        <table border="1">
+            <th>Message</th>
+            {% for post in posts %}
+                <tr><td>{{ post.message|e }}</td></tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
