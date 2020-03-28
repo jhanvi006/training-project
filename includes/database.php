@@ -3,6 +3,7 @@ require_once __DIR__ . '/DB_Interface.php';
 
 class database implements DB_interface
 {
+	public $connect;
 	public function __construct(){
 		// Create connection
 		$this->connect = mysqli_connect(DB_HOST_NAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE_NAME);
@@ -18,12 +19,18 @@ class database implements DB_interface
 		//$sql = "SELECT * FROM user_detail";
 		$result = mysqli_query($this->connect, $sql);
 
-		if (mysqli_num_rows($result) > 0) {
+		foreach ($result as $key => $value) {
+			echo "<br>";
+			var_dump($value);
+		}
+		return $value;
+
+		/*if (mysqli_num_rows($result) > 0) {
 		    while($row = mysqli_fetch_assoc($result)) {
 		        echo "Username: ".$row["username"]." Email: ".$row["email"]." Contact: ".$row["mobileNo"]. "<br>";
 
 		    }
-		}
+		}*/
 	}
 
 	public function selectOne($sql){
@@ -37,26 +44,8 @@ class database implements DB_interface
 	}
 
 	public function execute($sql){
-
-		//insert query
-		//$sql = "INSERT INTO user_detail () VALUES ()";
-
-		if (mysqli_query($this->connect, $sql)) {
-		    echo "New record created successfully";
-		}
-
-		//update query 
-		//$sql = "UPDATE user_detail SET newvalue WHERE condition";
-
 		if (mysqli_query($this->connect,$sql)) {
 		    echo "Record updated successfully";
-		}
-
-		//delete query 
-		//$sql = "DELETE FROM user_detail WHERE condition";
-
-		if (mysqli_query($this->connect, $sql)) {
-		    echo "Record deleted successfully";
 		}
 	}
 }

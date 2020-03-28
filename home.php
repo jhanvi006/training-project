@@ -20,3 +20,7 @@ require_once __DIR__ . "/models/Posts.php";
 $db = new database();
 $sql = "SELECT * FROM user_detail";
 $db->selectAll($sql);
+
+$objPosts = new Posts();
+$posts = $objPosts->select($sql);
+echo $twig->render('posts.html.twig', array('posts' => $posts));
