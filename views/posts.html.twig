@@ -7,9 +7,24 @@
     </head>
     <body>
         <table border="1">
-            <th>Message</th>
-            {% for post in posts %}
-                <tr><td>{{ post.message|e }}</td></tr>
+            <tr>
+                <th> Id </th>
+                <th> First Name </th>
+                <th> Last Name </th>
+                <th> Email </th>
+                <th> Contact </th>
+            </tr>
+            <!-- {{ dump(output) }} -->
+            {% for values in output %}
+                <tr>
+                    <td> {{ values.id }} </td>
+                    <td> {{ values.first_name }} </td>
+                    <td> {{ values.last_name }} </td>
+                    <td> {{ values.email }} </td>
+                    <td> {{ values.phone }} </td>
+                </tr>
+                {% else %}
+                    No users have been found.
             {% endfor %}
         </table>
     </body>

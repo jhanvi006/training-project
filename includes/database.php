@@ -19,22 +19,14 @@ class database implements DB_interface
 		//$sql = "SELECT * FROM user_detail";
 		$result = mysqli_query($this->connect, $sql);
 
-		foreach ($result as $key => $value) {
-			echo "<br>";
-			var_dump($value);
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
 		}
-		return $value;
-
-		/*if (mysqli_num_rows($result) > 0) {
-		    while($row = mysqli_fetch_assoc($result)) {
-		        echo "Username: ".$row["username"]." Email: ".$row["email"]." Contact: ".$row["mobileNo"]. "<br>";
-
-		    }
-		}*/
+		    return $row;
 	}
 
 	public function selectOne($sql){
-		$sql = "SELECT * FROM user_detail WHERE LIMIT 1";
+		//$sql = "SELECT * FROM user WHERE LIMIT 1";
 		$result = mysqli_query($this->connect, $sql);
 
 		while($row = mysqli_fetch_assoc($result)) {

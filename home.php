@@ -8,6 +8,7 @@ require_once __DIR__ . "/includes/common.php";
 
 // include model classes as needed
 require_once __DIR__ . "/models/Posts.php";
+require_once __DIR__ . "/models/registration.php";
 
 // get latest posts from DB
 //$objPosts = new Posts();
@@ -18,9 +19,14 @@ require_once __DIR__ . "/models/Posts.php";
 
 
 $db = new database();
-$sql = "SELECT * FROM user_detail";
-$db->selectAll($sql);
+$sql = "SELECT * FROM user";
+$output = $db->selectAll($sql);
 
-$objPosts = new Posts();
-$posts = $objPosts->select($sql);
-echo $twig->render('posts.html.twig', array('posts' => $posts));
+/*foreach ($output as $values) {
+	foreach ($values as $value) {
+		echo "$value  ";
+	}
+	echo "<br>";
+}*/
+
+echo $twig->render('posts.html.twig', array('output' => $output));
