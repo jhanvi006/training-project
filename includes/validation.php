@@ -42,7 +42,8 @@
 
 
     //Data Entry
-    require_once __DIR__ . '/database.php';
+    //require_once __DIR__ . '/database.php';
+    require_once __DIR__ . "/common.php";
 
     $db = new database();
     $sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('".$_POST["firstName"]."','".$_POST["lastName"]."','".$_POST["email"]."','".$_POST["phone"]."','".$_POST["password"]."')";
