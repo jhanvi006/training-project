@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Registration Form
+        </title>
+    </head>
+    <body>
+        <form method="post" action="registration.php">    
+
+            <div>
+                <div>
+                    <p> {{ "First Name:" }} 
+                        <input type="{{ type|default('text') }}" name="{{ 'firstName' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p>{{ "Last Name:" }}
+                        <input type="{{ type|default('text') }}" name="{{ 'lastName' }}"  />
+                    </p>
+                </div>
+            </div>
+            
+            <div>
+                <div>
+                    <p>{{ "Email:" }}
+                        <input type="{{ type|default('text') }}" name="{{ 'email' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p>{{ "Phone No.:"}}
+                        <input type="{{ type|default('text') }}" name="{{ 'phone' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p>{{ "Password:" }}
+                        <input type="{{ type|default('password') }}" name="{{ 'password' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <input type="{{ type|default('submit') }}" name="{{ 'register-user' }}"  />
+                </div>
+            </div>
+    </body>
+</html>

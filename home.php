@@ -8,7 +8,7 @@ require_once __DIR__ . "/includes/common.php";
 
 // include model classes as needed
 require_once __DIR__ . "/models/Posts.php";
-require_once __DIR__ . "/models/registration.php";
+//require_once __DIR__ . "/models/registration.php";
 
 // get latest posts from DB
 //$objPosts = new Posts();

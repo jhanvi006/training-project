@@ -41,3 +41,4 @@ class database implements DB_interface
 		}
 	}
 }
+
