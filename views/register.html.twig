@@ -6,6 +6,11 @@
         </title>
     </head>
     <body>
+        {% for error in errors %}
+            {{ "Error: "}}
+            {{ error }}
+            {{ "\n"|nl2br }}
+        {% endfor %}
         <form method="post" action="registration.php">    
 
             <div>
@@ -61,5 +66,6 @@
                     <input type="{{ type|default('submit') }}" name="{{ 'register-user' }}" value="{{ 'Register' }}" />
                 </div>
             </div>
+        </form>
     </body>
 </html>
