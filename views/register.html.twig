@@ -50,7 +50,15 @@
 
             <div>
                 <div>
-                    <input type="{{ type|default('submit') }}" name="{{ 'register-user' }}"  />
+                    <p>{{ "Retype Password:" }}
+                        <input type="{{ type|default('password') }}" name="{{ 'conf_password' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <input type="{{ type|default('submit') }}" name="{{ 'register-user' }}" value="{{ 'Register' }}" />
                 </div>
             </div>
     </body>

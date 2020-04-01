@@ -7,8 +7,8 @@
     require_once __DIR__ . "/models/User.php";
 
 
+    $errors = array();
     if(!empty($_POST)) { 
-        $errors = array();
 
         //General Validation
         if(empty($_POST["firstName"]))
@@ -34,32 +34,40 @@
         if(empty($_POST["password"]))
             $errors[] = "Password is empty!";
 
+        if(empty($_POST["conf_password"]))
+            $errors[] = "Retype Password is empty!";
+        elseif ($_POST["password"] != $_POST["conf_password"]) {
+            $errors[] = "Password does not match!";
+        }
+    
         //Show Errors, If Any
         if( ! empty($errors) ) {
             echo "<b>Error(s):</b><hr />";
             foreach($errors as $e) {
                 echo $e."<br />";
             }
-            exit;
+            //header("location: registration.php");
         }
-        else {
-            //Data Entry
-            $user = new User();
 
-            $sql = "SELECT * FROM user WHERE email = '$_POST[email]' OR phone = '$_POST[phone]'";
-            $output = $user->user_exists($sql);
+        else{
+        // Data entry
+        $user = new User();
 
-            if(!$output)
-            {
-                $sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('".$_POST["firstName"]."','".$_POST["lastName"]."','".$_POST["email"]."','".$_POST["phone"]."','".$_POST["password"]."')";
-                $user->execute($sql);
-            }            
-        }
+        $sql = "SELECT * FROM user WHERE email = '$_POST[email]'";
+        $output = $user->user_exists($sql);
+    
+        if(!$output)
+        {
+            $first_name = mysqli_real_escape_string($this->connect, $_POST['firsNname']);
+            $last_name = mysqli_real_escape_string($this->connect, $_POST['lastName']);
+            $email = mysqli_real_escape_string($this->connect, $_POST['email']);
+            $phone = mysqli_real_escape_string($this->connect, $_POST['phone']);
+            $en_password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+            $sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('$first_name','$last_name','$email','$phone','$en_password')";
+            //$sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('".$_POST["firstName"]."','".$_POST["lastName"]."','".$_POST["email"]."','".$_POST["phone"]."','$en_password')";
+            $user->execute($sql);
+        }     
+        }       
     }
-    else {
-        //header("location: home.php"); 
-        echo $twig->render('register.html.twig');
-    }
-
-
-
+    
+    echo $twig->render('register.html.twig');

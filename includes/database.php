@@ -12,7 +12,7 @@ class database implements DB_interface
 		if (!$this->connect) {
 		    die("connection failed: " . mysqli_connect_error());
 		}
-		echo "connected successfully <br>";
+		//echo "connected successfully <br>";
 	}
 
 	public function selectAll($sql){
@@ -37,7 +37,7 @@ class database implements DB_interface
 
 	public function execute($sql){
 		if (mysqli_query($this->connect,$sql)) {
-		    echo "Record updated successfully";
+		    echo "You are registered successfully";
 		}
 	}
 }
