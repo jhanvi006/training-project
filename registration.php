@@ -11,32 +11,32 @@
 
         //General Validation
         if(empty($_POST["firstName"]))
-            $errors[] = "First name is empty!";
+            $errors[] = "Error: First name is empty!";
         elseif (!preg_match("/^[a-zA-Z]*$/",$_POST["firstName"])) 
-            $errors[] = "Name contains only alphabets!";
+            $errors[] = "Error: Name contains only alphabets!";
 
         if(empty($_POST["lastName"]))
-            $errors[] = "Last name is empty!";
+            $errors[] = "Error: Last name is empty!";
         elseif (!preg_match("/^[a-zA-Z]*$/",$_POST["lastName"])) 
-            $errors[] = "Name contains only alphabets!";
+            $errors[] = "Error: Name contains only alphabets!";
 
         if(empty($_POST["email"]))
-            $errors[] = "Email is empty!";
+            $errors[] = "Error: Email is empty!";
         elseif (! filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) 
-            $errors[] = "Invalid email address!";
+            $errors[] = "Error: Invalid email address!";
 
         if(empty($_POST["phone"]))
-            $errors[] = "Phone is empty!";
+            $errors[] = "Error: Phone is empty!";
         elseif( ! ctype_digit($_POST["phone"]) || strlen($_POST["phone"]) != 10)
-            $errors[] = "Phone must be valid 10 digits!";
+            $errors[] = "Error: Phone must be valid 10 digits!";
 
         if(empty($_POST["password"]))
-            $errors[] = "Password is empty!";
+            $errors[] = "Error: Password is empty!";
 
         if(empty($_POST["conf_password"]))
-            $errors[] = "Retype Password is empty!";
+            $errors[] = "Error: Retype Password is empty!";
         elseif ($_POST["password"] != $_POST["conf_password"]) {
-            $errors[] = "Password does not match!";
+            $errors[] = "Error: Password does not match!";
         }
     
         if(empty($errors) ) {
@@ -45,21 +45,28 @@
 
         //$sql = "SELECT * FROM user WHERE email = '$_POST[email]'";
         $output = $user->user_exists($_POST["email"]);
+        if ($output) {
+            $errors[] = "Error: User already exists!";
+        }
     
-        if($output)
+        if(!$output)
         {
-            $fname = $_POST["firstName"];
+            /*$fname = $_POST["firstName"];
             $lname = $_POST["lastName"];
             $email = $_POST["email"];
             $phone = $_POST["phone"];
-            $pwd = $_POST["password"];
-            $output = $user->execute($fname, $lname, $email, $phone, $pwd);
+            $pwd = $_POST["password"];*/
+            $sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('".$_POST["firstName"]."','".$_POST["lastName"]."','".$_POST["email"]."','".$_POST["phone"]."','".$_POST["password"]."')";
+            $output = $user->execute($sql);
+            if ($output) {
+                $errors[] = "You are registered successfully!";
+            }
         }
         /*if ($output) {
-            $success = "You are registered successfully!";
+            $output_s = "You are registered successfully!";
         } else {
-            $user_error = "User already exsists!"; 
-        }  */     
+            $errors[] = "User already exists!"; 
+        } */      
         }
                 
     }

@@ -7,11 +7,9 @@
     </head>
     <body>
         {% for error in errors %}
-            {{ "Error: "}}
             {{ error }}
             {{ "\n"|nl2br }}
         {% endfor %}
-        {{ output }}
         <form method="post" action="registration.php">    
 
             <div>
