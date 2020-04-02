@@ -43,21 +43,25 @@
         // Data entry
         $user = new User();
 
-        $sql = "SELECT * FROM user WHERE email = '$_POST[email]'";
-        $output = $user->user_exists($sql);
+        //$sql = "SELECT * FROM user WHERE email = '$_POST[email]'";
+        $output = $user->user_exists($_POST["email"]);
     
-        if(!$output)
+        if($output)
         {
-            /*$last_name = mysqli_escape_string($this->connect, $_POST['lastName']);
-            $first_name = mysqli_escape_string($this->connect, $_POST['firstName']);
-            $email = mysqli_escape_string($this->connect, $_POST['email']);
-            $phone = mysqli_escape_string($this->connect, $_POST['phone']);*/
-            //$en_password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-            //$sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('$first_name','$last_name','$email','$phone','$en_password')";
-            //$sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('".$_POST["firstName"]."','".$_POST["lastName"]."','".$_POST["email"]."','".$_POST["phone"]."','".$_POST["password"]."')";
-            $user->execute($sql);
-        }     
-        }       
+            $fname = $_POST["firstName"];
+            $lname = $_POST["lastName"];
+            $email = $_POST["email"];
+            $phone = $_POST["phone"];
+            $pwd = $_POST["password"];
+            $output = $user->execute($fname, $lname, $email, $phone, $pwd);
+        }
+        /*if ($output) {
+            $success = "You are registered successfully!";
+        } else {
+            $user_error = "User already exsists!"; 
+        }  */     
+        }
+                
     }
     
     echo $twig->render('register.html.twig', array('errors' => $errors));
