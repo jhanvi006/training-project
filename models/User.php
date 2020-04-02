@@ -27,6 +27,34 @@ class User extends database
 		    return true;
 		}
 	}
+
+	public function login($email, $password)
+	{
+		$sql1 = "SELECT password FROM user WHERE email = '$email'";
+		$result1 = mysqli_query($this->connect, $sql1);
+		var_dump($result1);
+
+		if(mysqli_num_rows($result1) != 0)
+		{
+			$result2 = password_verify($password, $result1);
+			var_dump($result2);
+			//echo "Login successful";
+		    return $result2;
+		}
+		else {
+			echo "Invalid email!";
+		}
+
+		//$sql = "SELECT * FROM user WHERE email = '".$_POST["email"]."' AND password = 'password_verify(".$_POST["password"].", $en_password)'";
+		//$sql2 = "SELECT * FROM user WHERE email = '$email' AND password = 'password_verify($password, $en_password)'";
+            //echo password_verify($password, $en_password);
+		//$result = mysqli_query($this->connect,$sql);
+		/*if(mysqli_num_rows($result) != 0)
+		{
+			//echo "Login successful";
+		    return true;
+		}*/
+	}
 }
 	
 

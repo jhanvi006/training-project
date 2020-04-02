@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Login
+        </title>
+    </head>
+    <body>
+        {% for error in errors %}
+            {{ error }}
+            {{ "\n"|nl2br }}
+        {% endfor %}
+        <form method="post" action="login.php">    
+
+            <div>
+                <div>
+                    <p>{{ "Email:" }}
+                        <input type="{{ type|default('text') }}" name="{{ 'email' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p>{{ "Password:" }}
+                        <input type="{{ type|default('password') }}" name="{{ 'password' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <input type="{{ type|default('submit') }}" name="{{ 'login' }}" value="{{ 'Login' }}" />
+                </div>
+            </div>
+        </form>
+    </body>
+</html>
