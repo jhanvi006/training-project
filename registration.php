@@ -40,33 +40,28 @@
         }
     
         if(empty($errors) ) {
-        // Data entry
-        $user = new User();
+            // Data entry
+            $user = new User();
 
-        //$sql = "SELECT * FROM user WHERE email = '$_POST[email]'";
-        $output = $user->user_exists($_POST["email"]);
-        if ($output) {
-            $errors[] = "Error: User already exists!";
-        }
-    
-        if(!$output)
-        {
-            /*$fname = $_POST["firstName"];
-            $lname = $_POST["lastName"];
-            $email = $_POST["email"];
-            $phone = $_POST["phone"];
-            $pwd = $_POST["password"];*/
-            $sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('".$_POST["firstName"]."','".$_POST["lastName"]."','".$_POST["email"]."','".$_POST["phone"]."','".$_POST["password"]."')";
-            $output = $user->execute($sql);
+            //$sql = "SELECT * FROM user WHERE email = '$_POST[email]'";
+            $output = $user->user_exists($_POST["email"]);
             if ($output) {
-                $errors[] = "You are registered successfully!";
+                $errors[] = "Error: User already exists!";
             }
-        }
-        /*if ($output) {
-            $output_s = "You are registered successfully!";
-        } else {
-            $errors[] = "User already exists!"; 
-        } */      
+        
+            if(!$output)
+            {
+                $fname = $_POST["firstName"];
+                $lname = $_POST["lastName"];
+                $email = $_POST["email"];
+                $phone = $_POST["phone"];
+                $pwd = $_POST["password"];
+                //$sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('".$_POST["firstName"]."','".$_POST["lastName"]."','".$_POST["email"]."','".$_POST["phone"]."','".$_POST["password"]."')";
+                $output = $user->insert_user($fname, $lname, $email, $phone, $pwd);
+                if ($output) {
+                    $errors[] = "You are registered successfully!";
+                }
+            }      
         }
                 
     }
