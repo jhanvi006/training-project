@@ -33,5 +33,5 @@
         }
                 
     }
-    
+    echo $twig->render('header.html.twig');
     echo $twig->render('login.html.twig', array('errors' => $errors));
