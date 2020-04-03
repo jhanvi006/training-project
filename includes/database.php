@@ -35,7 +35,8 @@ class database implements DB_interface
 
 	public function execute($sql){
 		if (mysqli_query($this->connect,$sql)) {
-		    echo "You are registered successfully";
+		    //echo "You are registered successfully";
+		    return true;
 		}
 	}
 }

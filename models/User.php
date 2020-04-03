@@ -22,10 +22,8 @@ class User extends database
         $en_password = password_hash($pwd, PASSWORD_DEFAULT);
         $sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('$first_name','$last_name','$email','$phone','$en_password')";
         //$sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('".$_POST["firstName"]."','".$_POST["lastName"]."','".$_POST["email"]."','".$_POST["phone"]."','$en_password')";
-        if (mysqli_query($this->connect,$sql)) {
-		    //echo "You are registered successfully";
-		    return true;
-		}
+        $result = $this->execute($sql);
+        return $result;
 	}
 
 	public function login($email, $password)
