@@ -29,7 +29,7 @@ class database implements DB_interface
 		$result = mysqli_query($this->connect, $sql);
 
 		while($row = mysqli_fetch_assoc($result)) {
-		    echo "Username: ".$row["username"]." Email: ".$row["email"]." Contact: ".$row["mobileNo"]. "<br>";
+		    //echo "Username: ".$row["username"]." Email: ".$row["email"]." Contact: ".$row["mobileNo"]. "<br>";
 	    }
 	}
 

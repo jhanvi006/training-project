@@ -21,10 +21,8 @@
         if(empty($errors) ) {
             $user = new User();
 
-            //$sql = "SELECT * FROM user WHERE email = '".$_POST["email"]."' AND password = '".$_POST["password"]."'";
-
             $output = $user->login($_POST["email"],$_POST["password"]);
-            //echo $output;
+
             if ($output) {
                 $errors[] = "Login successful!";
             }
