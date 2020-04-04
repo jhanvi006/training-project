@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Edit
+        </title>
+    </head>
+    <body>
+        {% for error in errors %}
+            {{ error }}
+            {{ "\n"|nl2br }}
+        {% endfor %}
+        <form method="post" action="edit_user.php">    
+            <div>
+                <div>
+                    <p> {{ "First Name:" }} 
+                        <input type="{{ type|default('text') }}" name="{{ 'firstName' }}" />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p>{{ "Last Name:" }}
+                        <input type="{{ type|default('text') }}" name="{{ 'lastName' }}" />
+                    </p>
+                </div>
+            </div>
+            
+            <div>
+                <div>
+                    <p>{{ "Email:" }}
+                        <input type="{{ type|default('text') }}" name="{{ 'email' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p>{{ "Phone No.:"}}
+                        <input type="{{ type|default('text') }}" name="{{ 'phone' }}" />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <input type="{{ type|default('submit') }}" name="{{ 'edit-user' }}" value="{{ 'Edit' }}" />
+                </div>
+            </div>
+        </form>
+    </body>
+</html>

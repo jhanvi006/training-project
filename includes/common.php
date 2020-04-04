@@ -16,6 +16,8 @@ $twig = new \Twig\Environment($loader, [
     'debug' => true,
 ]);
 $twig->addExtension(new \Twig\Extension\DebugExtension());
+$twig->addGlobal('session', $_SESSION);
+
 
 
 // include any other common classes as needed

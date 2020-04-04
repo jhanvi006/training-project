@@ -30,14 +30,21 @@ class User extends database
 	{
 		$sql1 = "SELECT password FROM user WHERE email = '$email'";
 		$result1 = mysqli_query($this->connect, $sql1);
-		var_dump($result1);
-		echo "<br>";
+		
 		if(mysqli_num_rows($result1) != 0)
 		{
 			$row = mysqli_fetch_assoc($result1);
 			$result2 = password_verify($password, $row["password"]);
 		   	return $result2;
 		}
+	}
+
+	public function edit_user($fname, $lname, $email, $phone)
+	{
+		$sql = "UPDATE user SET first_name='$fname', last_name='$lname', email='$email', phone=$phone WHERE email='$email'";
+
+		$result = $this->execute($sql);
+		return $result;
 	}
 }
 	

@@ -28,9 +28,8 @@ class database implements DB_interface
 	public function selectOne($sql){
 		$result = mysqli_query($this->connect, $sql);
 
-		while($row = mysqli_fetch_assoc($result)) {
-		    //echo "Username: ".$row["username"]." Email: ".$row["email"]." Contact: ".$row["mobileNo"]. "<br>";
-	    }
+		$row = mysqli_fetch_assoc($result);
+	    return $row;
 	}
 
 	public function execute($sql){

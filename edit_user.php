@@ -7,6 +7,12 @@
     require_once __DIR__ . "/models/User.php";
 
     $errors = array();
+
+    /*$user = new User();
+    $sql = "Select * from user where email='".$_POST["email"]."'";
+    echo $sql;
+    $output1 = $user->SelectAll($sql);*/
+
     if(!empty($_POST)) { 
 
         //General Validation
@@ -30,41 +36,32 @@
         elseif( ! ctype_digit($_POST["phone"]) || strlen($_POST["phone"]) != 10)
             $errors[] = "Error: Phone must be valid 10 digits!";
 
-        if(empty($_POST["password"]))
-            $errors[] = "Error: Password is empty!";
-
-        if(empty($_POST["conf_password"]))
-            $errors[] = "Error: Retype Password is empty!";
-        elseif ($_POST["password"] != $_POST["conf_password"]) {
-            $errors[] = "Error: Password does not match!";
-        }
-    
+       
         if(empty($errors) ) {
-            // Data entry
+
             $user = new User();
 
-            //$sql = "SELECT * FROM user WHERE email = '$_POST[email]'";
-            $output = $user->user_exists($_POST["email"]);
+            $fname = $_POST["firstName"];
+            $lname = $_POST["lastName"];
+            $email = $_POST["email"];
+            $phone = $_POST["phone"];
+            /*$sql = "Select * from user where email='$email'";
+            echo $sql;
+            $output1 = $user->SelectAll($sql);
+            echo $output1;*/
+          
+            $output = $user->edit_user($fname, $lname, $email, $phone);
             if ($output) {
-                $errors[] = "Error: User already exists!";
+                $errors[] = "Upadated data successfully!";
             }
-        
-            if(!$output)
+            else
             {
-                $fname = $_POST["firstName"];
-                $lname = $_POST["lastName"];
-                $email = $_POST["email"];
-                $phone = $_POST["phone"];
-                $pwd = $_POST["password"];
-                //$sql = "INSERT INTO user(first_name, last_name, email, phone, password) VALUES('".$_POST["firstName"]."','".$_POST["lastName"]."','".$_POST["email"]."','".$_POST["phone"]."','".$_POST["password"]."')";
-                $output = $user->insert_user($fname, $lname, $email, $phone, $pwd);
-                if ($output) {
-                    $errors[] = "You are registered successfully!";
-                }
-            }      
+                $errors[] = "Error:";
+            }
         }
                 
     }
     
     echo $twig->display('header.html.twig');
-    echo $twig->render('register.html.twig', array('errors' => $errors));
+    echo $twig->render('edit_user.html.twig', array('errors' => $errors));
+   

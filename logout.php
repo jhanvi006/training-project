@@ -1,4 +1,14 @@
-<?php 
+<?php
+	session_start();
 
-echo $twig->render('header.html.twig');
-echo $twig->render('home.html.twig');
+	if(!isset($_SESSION["username"]))
+	{
+		header("location:login.php");
+		exit;
+	}
+
+	unset($_SESSION["username"]);
+
+	header("location: home.php");
+
+?>

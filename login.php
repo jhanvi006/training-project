@@ -1,7 +1,9 @@
 <?php
 
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
+    session_start();
+
+    /*error_reporting(E_ALL);
+    ini_set('display_errors', 1);*/
 
     require_once __DIR__ . "/includes/common.php";
     require_once __DIR__ . "/models/User.php";
@@ -21,10 +23,20 @@
         if(empty($errors) ) {
             $user = new User();
 
-            $output = $user->login($_POST["email"],$_POST["password"]);
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+            //$output = $user->login($_POST["email"],$_POST["password"]);
+            $output = $user->login($email,$password);
 
             if ($output) {
-                $errors[] = "Login successful!";
+                //$errors[] = "Login successful!";
+
+                $u_sql = "Select first_name from user where email='$email'";
+                $user_name = $user->selectOne($u_sql);
+                $_SESSION["username"] = $user_name["first_name"];
+                //$name = $user_name["first_name"];
+                header("location: home.php");
+                //header("location: edit_user.php");
             }
             else
             {
@@ -33,5 +45,5 @@
         }
                 
     }
-    echo $twig->render('header.html.twig');
+    //echo $twig->render('header.html.twig', array('user_name' => $user_name));
     echo $twig->render('login.html.twig', array('errors' => $errors));
