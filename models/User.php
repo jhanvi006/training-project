@@ -39,9 +39,9 @@ class User extends database
 		}
 	}
 
-	public function edit_user($fname, $lname, $email, $phone)
+	public function edit_user($fname, $email)
 	{
-		$sql = "UPDATE user SET first_name='$fname', last_name='$lname', email='$email', phone=$phone WHERE email='$email'";
+		$sql = "UPDATE user SET first_name='$fname' WHERE email='$email'";
 
 		$result = $this->execute($sql);
 		return $result;

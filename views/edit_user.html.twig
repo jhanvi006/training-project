@@ -10,11 +10,11 @@
             {{ error }}
             {{ "\n"|nl2br }}
         {% endfor %}
-        <form method="post" action="edit_user.php">    
+        <form method="post" action="edit.php">    
             <div>
                 <div>
                     <p> {{ "First Name:" }} 
-                        <input type="{{ type|default('text') }}" name="{{ 'firstName' }}" />
+                        <input type="{{ type|default('text') }}" name="{{ 'firstName' }}"value="{{ output.first_name }}" />
                     </p>
                 </div>
             </div>
@@ -22,7 +22,7 @@
             <div>
                 <div>
                     <p>{{ "Last Name:" }}
-                        <input type="{{ type|default('text') }}" name="{{ 'lastName' }}" />
+                        <input type="{{ type|default('text') }}" name="{{ 'lastName' }}"value="{{ output.last_name }}" />
                     </p>
                 </div>
             </div>
@@ -30,7 +30,7 @@
             <div>
                 <div>
                     <p>{{ "Email:" }}
-                        <input type="{{ type|default('text') }}" name="{{ 'email' }}"  />
+                        <input type="{{ type|default('text') }}" name="{{ 'email' }}" value="{{ output.email }}" />
                     </p>
                 </div>
             </div>
@@ -38,7 +38,7 @@
             <div>
                 <div>
                     <p>{{ "Phone No.:"}}
-                        <input type="{{ type|default('text') }}" name="{{ 'phone' }}" />
+                        <input type="{{ type|default('text') }}" name="{{ 'phone' }}"value="{{ output.phone }}" />
                     </p>
                 </div>
             </div>
