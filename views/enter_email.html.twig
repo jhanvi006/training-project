@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>
-            Login
+            Reset Password
         </title>
     </head>
     <body>
@@ -10,8 +10,7 @@
             {{ error }}
             {{ "\n"|nl2br }}
         {% endfor %}
-        <form method="post" action="login.php">    
-
+        <form method="post" action="verify_user.php">    
             <div>
                 <div>
                     <p>{{ "Email:" }}
@@ -22,19 +21,8 @@
 
             <div>
                 <div>
-                    <p>{{ "Password:" }}
-                        <input type="{{ type|default('password') }}" name="{{ 'password' }}"  />
-                    </p>
+                    <input type="{{ type|default('submit') }}" name="{{ 'verify-user' }}" value="{{ 'Submit' }}" />
                 </div>
-            </div>
-
-            <div>
-                <div>
-                    <input type="{{ type|default('submit') }}" name="{{ 'login' }}" value="{{ 'Login' }}" />
-                </div>
-            </div>
-            <div>
-                <p><a href="verify_user.php">{{ "Forgot password?" }}</a></p>
             </div>
         </form>
     </body>

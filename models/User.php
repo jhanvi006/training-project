@@ -39,12 +39,50 @@ class User extends database
 		}
 	}
 
-	public function edit_user($fname, $lname, $email, $phone)
+	public function edit_user($fname, $lname, $email, $phone, $email_cond)
 	{
-		$sql = "UPDATE user SET first_name='$fname', last_name='$lname', email='$email', phone='$phone' WHERE email='$email'";
+		$sql = "UPDATE user SET first_name='$fname', last_name='$lname', email='$email', phone='$phone' WHERE email='$email_cond'";
 
 		$result = $this->execute($sql);
 		return $result;
+	}
+
+	public function verify_user($email)
+	{
+		$sql = "SELECT * FROM user WHERE email = '$email'";
+
+		$result = mysqli_query($this->connect, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            //echo "User already exists! <br>";
+            return true;
+		}
+	}
+
+	public function send_verify_mail($email)
+	{
+		$token = bin2hex(random_bytes(50));
+
+        // store token in the password-reset database table against the user's email
+        $sql = "INSERT INTO password_reset(email, token) VALUES ('$email', '$token')";
+        $results = $this->execute($sql);
+
+        // Send email to user with the token in a link they can click on
+        $to = $email;
+        $subject = "Reset your password on examplesite.com";
+        $msg = "Hi there, click on this <a href=\"new_password.php?token=" . $token . "\">link</a> to reset your password on our site";
+        $msg = wordwrap($msg,70);
+        $headers = "From: info@examplesite.com";
+        mail($to, $subject, $msg, $headers);
+        return true;
+	}
+
+	public function reset_pwd($email, $pwd)
+	{
+        $en_password = password_hash($pwd, PASSWORD_DEFAULT);
+        $sql = "UPDATE user SET password='$en_password' WHERE email='$email'";
+        $result = $this->execute($sql);
+        return $result;
 	}
 }
 	

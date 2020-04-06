@@ -18,14 +18,15 @@
             $errors[] = "Error: Name contains only alphabets!";
         if (!preg_match("/^[a-zA-Z]*$/",$_POST["lastName"])) 
             $errors[] = "Error: Name contains only alphabets!";
-        if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) 
+        if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) 
             $errors[] = "Error: Invalid email address!";
         if (! ctype_digit($_POST["phone"]) || strlen($_POST["phone"]) != 10) 
             $errors[] = "Error: Phone must be valid 10 digits!";
     
         if(empty($errors))
         {
-            $update = $user->edit_user($_POST["firstName"], $_POST["lastName"], $_POST["email"], $_POST["phone"]);
+            $email_cond = $output["email"];
+            $update = $user->edit_user($_POST["firstName"], $_POST["lastName"], $_POST["email"], $_POST["phone"], $email_cond);
             if ($update) {
                 $errors[] = "Upadated data successfully!";
             }
