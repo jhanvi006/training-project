@@ -7,9 +7,9 @@
     require_once __DIR__ . "/models/User.php";
 
     $errors = array();
-    $user = new User();
+    /*$user = new User();
     $sql = "Select * from user where first_name='".$_SESSION["username"]."'";
-    $output = $user->SelectOne($sql);
+    $output = $user->SelectOne($sql);*/
 
     if(!empty($_POST)) { 
 
@@ -23,17 +23,28 @@
         }
     
         if(empty($errors) ) {
-            // Data entry
+
+            $token = $_SESSION["token"];
             $user = new User();
 
-            $email = $output["email"];
-            $pwd = $_POST["password"];
-            $output = $user->reset_pwd($email, $pwd);
-            if ($output) {
-                $errors[] = "Password changed successfully!";
-            }  
-            else
-                $errors[] = "Error:"; 
+            $sql = "SELECT email FROM password_reset WHERE token='$token' LIMIT 1";
+            $results = $user->SelectOne($sql);
+            $email = $results['email'];
+
+            if ($email) {
+                $pwd = $_POST["password"];
+                $output = $user->reset_pwd($email, $pwd);
+
+                if ($output) 
+                {
+                    $errors[] = "Password changed successfully!";
+                    header("location: login.php");
+                }  
+                else
+                {
+                    $errors[] = "Error:";
+                } 
+            }
         }
                 
     }

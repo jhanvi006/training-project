@@ -21,9 +21,10 @@
             $verify = $user->verify_user($_POST["email"]);
             if ($verify) {
 
-                $sent = $user->send_verify_mail($email);
+                $sent = $user->send_verify_mail($_POST["email"]);
                 if($sent)
-                    header('location: reset_password.php');
+                    $errors[] = "Check mail";
+                    //header('location: reset_password.php');
                 else
                     $errors[] = "Error: ";
             }
