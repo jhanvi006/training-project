@@ -32,6 +32,10 @@ class ComposerStaticInit4d081dc805e110390abd0f562ddd42e3
             'Symfony\\Component\\Form\\' => 23,
             'Symfony\\Component\\EventDispatcher\\' => 34,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -86,6 +90,10 @@ class ComposerStaticInit4d081dc805e110390abd0f562ddd42e3
         'Symfony\\Component\\EventDispatcher\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
     );
 

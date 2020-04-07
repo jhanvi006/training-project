@@ -66,5 +66,5 @@
                 
     }
     
-    echo $twig->display('header.html.twig');
+    //echo $twig->display('header.html.twig');
     echo $twig->render('register.html.twig', array('errors' => $errors));

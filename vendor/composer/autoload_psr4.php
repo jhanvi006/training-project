@@ -19,4 +19,5 @@ return array(
     'Symfony\\Component\\Inflector\\' => array($vendorDir . '/symfony/inflector'),
     'Symfony\\Component\\Form\\' => array($vendorDir . '/symfony/form'),
     'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
+    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
 );

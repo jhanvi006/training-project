@@ -6,11 +6,24 @@
     require_once __DIR__ . "/includes/common.php";
     require_once __DIR__ . "/models/User.php";
 
+    
     $errors = array();
-    /*$user = new User();
-    $sql = "Select * from user where first_name='".$_SESSION["username"]."'";
-    $output = $user->SelectOne($sql);*/
-
+    
+    $email = $_GET["email"];
+    $token = $_GET["token"];
+    $user = new User();
+    $sql = "SELECT * FROM password_reset WHERE email='$email' LIMIT 1";
+    $output = $user->SelectOne($sql);
+    if ($output["token"] == $token)
+    {
+        header("location: reset_password.php");
+    }
+    else
+    {
+        $errors[] = "Error: Recovery email has been expired";
+        exit;
+    }
+    
     if(!empty($_POST)) { 
 
         if(empty($_POST["password"]))
@@ -22,14 +35,14 @@
             $errors[] = "Error: Password does not match!";
         }
     
+        
         if(empty($errors) ) {
 
-            $token = $_SESSION["token"];
-            $user = new User();
-
-            $sql = "SELECT email FROM password_reset WHERE token='$token' LIMIT 1";
+            
+            //$token = $_SESSION["token"];
+            /*$sql = "SELECT email FROM password_reset WHERE token='$token' LIMIT 1";
             $results = $user->SelectOne($sql);
-            $email = $results['email'];
+            $email = $results['email'];*/
 
             if ($email) {
                 $pwd = $_POST["password"];

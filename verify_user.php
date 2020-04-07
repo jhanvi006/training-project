@@ -6,6 +6,9 @@
     require_once __DIR__ . "/includes/common.php";
     require_once __DIR__ . "/models/User.php";
 
+    //use PHPMailer\PHPMailer\PHPMailer;
+    //use PHPMailer\PHPMailer\src\Exception;
+
     $errors = array();
 
     if(!empty($_POST))
@@ -20,8 +23,8 @@
             $user = new User();
             $verify = $user->verify_user($_POST["email"]);
             if ($verify) {
-
-                $sent = $user->send_verify_mail($_POST["email"]);
+                $token = bin2hex(random_bytes(50));
+                $sent = $user->send_verify_mail($_POST["email"], $token);
                 if($sent)
                     $errors[] = "Check mail";
                     //header('location: reset_password.php');
@@ -34,6 +37,5 @@
             }
         }
     }
-    //echo $twig->display('header.html.twig');
     echo $twig->render('enter_email.html.twig', array('errors' => $errors));
    
