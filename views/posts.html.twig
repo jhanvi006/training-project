@@ -1,3 +1,4 @@
+{% include 'header.html.twig' %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +15,6 @@
                 <th> Email </th>
                 <th> Contact </th>
             </tr>
-            <!-- {{ dump(output) }} -->
             {% for values in output %}
                 <tr>
                     <td> {{ values.id }} </td>

@@ -1,9 +1,3 @@
-
-<!-- {% include 'login.html.twig' %} -->
-<!-- {% if not session.username %}
-    {{ "Login fail" }}
-{% endif %} -->
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,7 +10,7 @@
             {% if session %}
                 <ul>
                     <li> 
-                        {{ "Welcome "~session.username }} 
+                        {{ "Welcome "~session.fname }} 
                     </li>
                     <li>
                         <a href="home.php">{{ "Home" }} </a>

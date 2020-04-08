@@ -19,5 +19,4 @@ $output = $db->selectAll($sql);
 	}
 	echo "<br>";
 }*/
-echo $twig->display('header.html.twig');
 echo $twig->render('posts.html.twig', array('output' => $output));

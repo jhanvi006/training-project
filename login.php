@@ -31,12 +31,12 @@
             if ($output) {
                 //$errors[] = "Login successful!";
 
-                $u_sql = "Select first_name from user where email='$email'";
+                $u_sql = "Select * from user where email='$email'";
                 $user_name = $user->selectOne($u_sql);
-                $_SESSION["username"] = $user_name["first_name"];
+                $_SESSION["email"] = $user_name["email"];
+                $_SESSION["fname"] = $user_name["first_name"];
                 //$name = $user_name["first_name"];
                 header("location: home.php");
-                //header("location: edit_user.php");
             }
             else
             {

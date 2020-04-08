@@ -8,10 +8,10 @@
 
     $errors = array();
 
-    if(!empty($_SESSION))
+    if(!empty($_SESSION["email"]))
     {
         $user = new User();
-        $sql = "Select * from user where first_name='".$_SESSION["username"]."'";
+        $sql = "Select * from user where first_name='".$_SESSION["email"]."'";
         $output = $user->SelectOne($sql);
         if(!empty($_POST))
         {
@@ -38,7 +38,7 @@
                 }
             }
         }
-        echo $twig->display('header.html.twig');
+        
         echo $twig->render('edit_user.html.twig', ['output' => $output, 'errors' => $errors]);
     }
     else
