@@ -7,10 +7,10 @@
     </head>
     <body>
         <div style="float: right;">
-            {% if session %}
+            {% if session.email %}
                 <ul>
                     <li> 
-                        {{ "Welcome "~session.fname }} 
+                        {{ "Welcome "~session.fname~" "~session.lname }} 
                     </li>
                     <li>
                         <a href="home.php">{{ "Home" }} </a>

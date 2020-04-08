@@ -11,8 +11,9 @@
     if(!empty($_SESSION["email"]))
     {
         $user = new User();
-        $sql = "Select * from user where first_name='".$_SESSION["email"]."'";
+        $sql = "Select * from user where email='".$_SESSION["email"]."'";
         $output = $user->SelectOne($sql);
+        
         if(!empty($_POST))
         {
 

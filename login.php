@@ -35,6 +35,10 @@
                 $user_name = $user->selectOne($u_sql);
                 $_SESSION["email"] = $user_name["email"];
                 $_SESSION["fname"] = $user_name["first_name"];
+                $_SESSION["lname"] = $user_name["last_name"];
+                //var_dump($user_name);
+                echo $_SESSION["email"];
+                echo $_SESSION["fname"];
                 //$name = $user_name["first_name"];
                 header("location: home.php");
             }

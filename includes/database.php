@@ -29,7 +29,7 @@ class database implements DB_interface
 	public function selectOne($sql){
 		$result = mysqli_query($this->connect, $sql);
 
-		$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
+		$row = mysqli_fetch_assoc($result);
 	    return $row;
 	}
 
