@@ -8,34 +8,41 @@
 
     $errors = array();
 
-    $user = new User();
-    $sql = "Select * from user where first_name='".$_SESSION["username"]."'";
-    $output = $user->SelectOne($sql);
-
-    if(!empty($_POST))
+    if(!empty($_SESSION))
     {
-        if (!preg_match("/^[a-zA-Z]*$/",$_POST["firstName"])) 
-            $errors[] = "Error: Name contains only alphabets!";
-        if (!preg_match("/^[a-zA-Z]*$/",$_POST["lastName"])) 
-            $errors[] = "Error: Name contains only alphabets!";
-        if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) 
-            $errors[] = "Error: Invalid email address!";
-        if (! ctype_digit($_POST["phone"]) || strlen($_POST["phone"]) != 10) 
-            $errors[] = "Error: Phone must be valid 10 digits!";
-    
-        if(empty($errors))
+        $user = new User();
+        $sql = "Select * from user where first_name='".$_SESSION["username"]."'";
+        $output = $user->SelectOne($sql);
+        if(!empty($_POST))
         {
-            $email_cond = $output["email"];
-            $update = $user->edit_user($_POST["firstName"], $_POST["lastName"], $_POST["email"], $_POST["phone"], $email_cond);
-            if ($update) {
-                $errors[] = "Upadated data successfully!";
-            }
-            else
+
+            if (!preg_match("/^[a-zA-Z]*$/",$_POST["firstName"])) 
+                $errors[] = "Error: Name contains only alphabets!";
+            if (!preg_match("/^[a-zA-Z]*$/",$_POST["lastName"])) 
+                $errors[] = "Error: Name contains only alphabets!";
+            if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) 
+                $errors[] = "Error: Invalid email address!";
+            if (! ctype_digit($_POST["phone"]) || strlen($_POST["phone"]) != 10) 
+                $errors[] = "Error: Phone must be valid 10 digits!";
+        
+            if(empty($errors))
             {
-                $errors[] = "Error:";
+                $email_cond = $output["email"];
+                $update = $user->edit_user($_POST["firstName"], $_POST["lastName"], $_POST["email"], $_POST["phone"], $email_cond);
+                if ($update) {
+                    $errors[] = "Upadated data successfully!";
+                }
+                else
+                {
+                    $errors[] = "Error:";
+                }
             }
         }
+        echo $twig->display('header.html.twig');
+        echo $twig->render('edit_user.html.twig', ['output' => $output, 'errors' => $errors]);
     }
-    echo $twig->display('header.html.twig');
-    echo $twig->render('edit_user.html.twig', ['output' => $output, 'errors' => $errors]);
+    else
+    {
+        echo "You are not allowed to access the page!";
+    }
    

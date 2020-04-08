@@ -1,8 +1,8 @@
 
 <!-- {% include 'login.html.twig' %} -->
-{% if not session.username %}
+<!-- {% if not session.username %}
     {{ "Login fail" }}
-{% endif %}
+{% endif %} -->
 
 <!DOCTYPE html>
 <html>
@@ -13,23 +13,34 @@
     </head>
     <body>
         <div style="float: right;">
-            <ul>
-                <li> 
-                    {{ "Welcome "~session.username }} 
-                </li>
-                <li>
-                    <a href="home.php">{{ "Home" }} </a>
-                </li>
-                <li>
-                    <a href="myAccount.php">{{ "My Account" }}</a>
-                </li>
-                <li>
-                    <a href="logout.php">{{ "Logout" }}</a>
-                </li>
-                <li>
-                    <a href="registration.php">{{ "Register" }}</a>
-                </li>
-            </ul>
+            {% if session %}
+                <ul>
+                    <li> 
+                        {{ "Welcome "~session.username }} 
+                    </li>
+                    <li>
+                        <a href="home.php">{{ "Home" }} </a>
+                    </li>
+                    <li>
+                        <a href="edit.php">{{ "My Account" }}</a>
+                    </li>
+                    <li>
+                        <a href="logout.php">{{ "Logout" }}</a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul>
+                    <li>
+                        <a href="home.php">{{ "Home" }} </a>
+                    </li>
+                    <li>
+                        <a href="registration.php">{{ "Register" }}</a>
+                    </li>
+                    <li>
+                        <a href="login.php">{{ "Login" }}</a>
+                    </li>
+                </ul>
+            {% endif %}
         </div>
     </body>
 </html>
