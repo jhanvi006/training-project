@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Admin Login
+        </title>
+    </head>
+    <body>
+        {% for error in errors %}
+            {{ error }}
+            {{ "\n"|nl2br }}
+        {% endfor %}
+        <form method="post" action="admin_login.php">    
+            <div>
+                <div>
+                    <p>{{ "Email:" }}
+                        <input type="{{ type|default('text') }}" name="{{ 'a_email' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p>{{ "Password:" }}
+                        <input type="{{ type|default('password') }}" name="{{ 'a_password' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <input type="{{ type|default('submit') }}" name="{{ 'admin-login' }}" value="{{ 'Login' }}" />
+                </div>
+            </div>
+            <!-- <div>
+                <p><a href="verify_user.php">{{ "Forgot password?" }}</a></p>
+            </div> -->
+        </form>
+    </body>
+</html>

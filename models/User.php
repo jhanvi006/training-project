@@ -13,6 +13,14 @@ class User extends database
 		}
 	}
 
+	public function admin_login($email,$password)
+	{
+		$en_password = md5($password);
+		$sql = "SELECT * FROM admin_user WHERE email='$email' AND password='$en_password'";
+		$result = $this->selectOne($sql);
+		return $result;
+	}
+
 	public function insert_user($fname, $lname, $email, $phone, $pwd)
 	{
 		$first_name = mysqli_escape_string($this->connect, $fname);
@@ -86,7 +94,7 @@ class User extends database
         return $result;
 	}
 
-	
+
 }
 	
 
