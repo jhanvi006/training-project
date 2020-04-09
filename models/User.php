@@ -73,52 +73,10 @@ class User extends database
         $msg = "Hi there, click on this <a href='http://localhost/demo_project/verify_mail.php?email='".$email."'&token='".$token."'>link</a> to reset your password on our site";
         $msg = wordwrap($msg,70);
         $headers = "From: info@examplesite.com";
-        /*$message = "<p>Please click the link below to reset your password</p>";
-		$message .= "<a href='http://localhost/demo_project/reset_password.php?email=$email&token=$token'>";
-		$message .= "Reset password";
-		$message .= "</a>";
-		$this->send_mail($email, "Reset password", $message);*/
+        
         mail($to, $subject, $msg, $headers);
         return true;
 	}
-
-	public function send_mail($to, $subject, $message)
-	{
-	    $mail = new PHPMailer(true);
-
-	    try {
-	        //Server settings
-			$mail->SMTPDebug = 0;                                       // Enable verbose debug output
-			$mail->isSMTP();                                            // Set mailer to use SMTP
-			$mail->Host       = 'smtp.gmail.com;';  // Specify main and backup SMTP servers
-			$mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-			$mail->Username   = 'user@example.com';                     // SMTP username
-			$mail->Password   = 'secret';                               // SMTP password
-			$mail->SMTPSecure = 'tls';                                  // Enable TLS encryption, `ssl` also accepted
-			$mail->Port       = 587;                                    // TCP port to connect to
-
-			$mail->setFrom('user@example.com', 'user');
-			//Recipients
-			$mail->addAddress($to);
-
-			// Content
-			$mail->isHTML(true);                                  // Set email format to HTML
-			$mail->Subject = $subject;
-			$mail->Body    = $message;
-
-			$mail->send();
-			echo 'Message has been sent';
-	    } 
-	    catch (Exception $e) {
-			echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-	    }
-	}
-
-	/*public function get_token($token)
-	{
-		$token = mysqli_escape_string($this->connect, $token);
-        return $token;
-	}*/
 
 	public function reset_pwd($email, $pwd)
 	{
@@ -127,6 +85,8 @@ class User extends database
         $result = $this->execute($sql);
         return $result;
 	}
+
+	
 }
 	
 
