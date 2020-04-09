@@ -9,21 +9,6 @@
     
     $errors = array();
     
-    $email = $_GET["email"];
-    $token = $_GET["token"];
-    $user = new User();
-    $sql = "SELECT * FROM password_reset WHERE email='$email' LIMIT 1";
-    $output = $user->SelectOne($sql);
-    if ($output["token"] == $token)
-    {
-        header("location: reset_password.php");
-    }
-    else
-    {
-        $errors[] = "Error: Recovery email has been expired";
-        exit;
-    }
-    
     if(!empty($_POST)) { 
 
         if(empty($_POST["password"]))
@@ -34,24 +19,19 @@
         elseif ($_POST["password"] != $_POST["conf_password"]) {
             $errors[] = "Error: Password does not match!";
         }
-    
+        
         
         if(empty($errors) ) {
 
-            
-            //$token = $_SESSION["token"];
-            /*$sql = "SELECT email FROM password_reset WHERE token='$token' LIMIT 1";
-            $results = $user->SelectOne($sql);
-            $email = $results['email'];*/
-
-            if ($email) {
+            $user = new User();
+            if ($_SESSION["email"]) {
                 $pwd = $_POST["password"];
-                $output = $user->reset_pwd($email, $pwd);
+                $output = $user->reset_pwd($_SESSION["email"], $pwd);
 
                 if ($output) 
                 {
                     $errors[] = "Password changed successfully!";
-                    header("location: login.php");
+                    //header("location: login.php");
                 }  
                 else
                 {
@@ -59,7 +39,5 @@
                 } 
             }
         }
-                
     }
-    
     echo $twig->render('reset_password.html.twig', array('errors' => $errors));

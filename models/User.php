@@ -61,24 +61,24 @@ class User extends database
 
 	public function send_verify_mail($email, $token)
 	{
-		//$token = bin2hex(random_bytes(50));
+		$token = bin2hex(random_bytes(50));
 
         // store token in the password-reset database table against the user's email
         $sql = "INSERT INTO password_reset(email, token) VALUES ('$email', '$token')";
         $results = $this->execute($sql);
 
-        /*// Send email to user with the token in a link they can click on
+        // Send email to user with the token in a link they can click on
         $to = $email;
         $subject = "Reset your password on examplesite.com";
-        $msg = "Hi there, click on this <a href=\"new_password.php?token=" . $token . "\">link</a> to reset your password on our site";
+        $msg = "Hi there, click on this <a href='http://localhost/demo_project/verify_mail.php?email='".$email."'&token='".$token."'>link</a> to reset your password on our site";
         $msg = wordwrap($msg,70);
-        $headers = "From: info@examplesite.com";*/
-        $message = "<p>Please click the link below to reset your password</p>";
+        $headers = "From: info@examplesite.com";
+        /*$message = "<p>Please click the link below to reset your password</p>";
 		$message .= "<a href='http://localhost/demo_project/reset_password.php?email=$email&token=$token'>";
 		$message .= "Reset password";
 		$message .= "</a>";
-		$this->send_mail($email, "Reset password", $message);
-        //mail($to, $subject, $msg, $headers);
+		$this->send_mail($email, "Reset password", $message);*/
+        mail($to, $subject, $msg, $headers);
         return true;
 	}
 
@@ -97,7 +97,7 @@ class User extends database
 			$mail->SMTPSecure = 'tls';                                  // Enable TLS encryption, `ssl` also accepted
 			$mail->Port       = 587;                                    // TCP port to connect to
 
-			$mail->setFrom('user@example.com', 'Jhanvi kankhara');
+			$mail->setFrom('user@example.com', 'user');
 			//Recipients
 			$mail->addAddress($to);
 
