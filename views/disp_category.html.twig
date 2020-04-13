@@ -1,0 +1,32 @@
+{% include 'header.html.twig' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            List of Categories
+        </title>
+    </head>
+    <body>
+
+        <b> {{ "Categories:" }} </b>
+        <table border="1" width="600">
+            <tr>
+                <th> {{ "Title" }} </th>
+                <th> </th>
+            </tr>
+            {% for values in output %}
+                <tr>    
+                    <td> {{ values.title }} </td>
+                    <td> 
+                        <a href="edit_category.php?cat_id={{ values.cat_id }}">
+                            <img alt="edit" src="images/edit.png" width="20" height="20">
+                        </a>
+                        <a href="delete_category.php?cat_id={{ values.cat_id }}">
+                            <img alt="delete" src="images/delete.png" width="20" height="20">
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

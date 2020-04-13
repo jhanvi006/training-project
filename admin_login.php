@@ -32,11 +32,11 @@
 
                 $u_sql = "Select * from admin_user where email='$email'";
                 $user_name = $user->selectOne($u_sql);
-                $_SESSION["email"] = $user_name["email"];
+                $_SESSION["admin_email"] = $user_name["email"];
                 $_SESSION["fname"] = $user_name["username"];
                 //$_SESSION["lname"] = $user_name["last_name"];
                 
-                header("location: home.php");
+                header("location: disp_category.php");
             }
             else
             {

@@ -25,6 +25,24 @@
                         <a href="logout.php">{{ "Logout" }}</a>
                     </li>
                 </ul>
+            {% elseif session.admin_email %}
+                <ul>
+                    <li> 
+                        {{ "Welcome "~session.fname }} 
+                    </li>
+                    <li>
+                        <a href="disp_category.php">{{ "Home" }} </a>
+                    </li>
+                    <!-- <li>
+                        <a href="edit.php">{{ "My Account" }}</a>
+                    </li>
+                    <li>
+                        <a href="change_password.php">{{ "Change Password" }}</a>
+                    </li> -->
+                    <li>
+                        <a href="admin_logout.php">{{ "Logout" }}</a>
+                    </li>
+                </ul>
             {% else %}
                 <ul>
                     <li>

@@ -1,0 +1,39 @@
+{% include 'header.html.twig' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Add Categories
+        </title>
+    </head>
+    <body>
+        {% for error in errors %}
+            {{ error }}
+            {{ "\n"|nl2br }}
+        {% endfor %}
+        <form method="post" action="add_category.php">    
+
+            <div>
+                <div>
+                    <p> {{ "Title:" }} 
+                        <input type="{{ type|default('text') }}" name="{{ 'cat_title' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p> {{ "Description:" }} </p>
+                        <textarea name='cat_desc' rows="4" cols="20">  </textarea>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <input type="{{ type|default('submit') }}" name="{{ 'add-category' }}" value="{{ 'Add' }}" />
+                </div>
+            </div>
+
+        </form>
+    </body>
+</html>
