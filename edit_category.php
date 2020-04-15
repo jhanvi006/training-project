@@ -18,6 +18,9 @@
         {
             if(empty($_POST["edit_cat_title"]))
                 $errors[] = "Error: Title is empty!";
+
+            if(empty($_POST["edit_cat_desc"]))
+                $errors[] = "Error: Description is empty!";
             
             if(empty($errors))
             {
@@ -26,7 +29,7 @@
                     $errors[] = "Error: Category already exists!";
                 }
                 
-                $update = $category->edit_category($_POST["edit_cat_title"], $output["title"]);
+                $update = $category->edit_category($_POST["edit_cat_title"], $_POST["edit_cat_desc"], $output["title"]);
                 if ($update) {
                     $errors[] = "Upadated data successfully!";
                 }

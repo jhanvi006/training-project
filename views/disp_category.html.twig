@@ -5,6 +5,12 @@
         <title>
             List of Categories
         </title>
+        <script type='text/javascript'>
+            function confirmDelete()
+            {
+               return confirm("Are you sure you want to delete this item?");
+            }
+        </script>
     </head>
     <body>
 
@@ -14,19 +20,46 @@
                 <th> {{ "Title" }} </th>
                 <th> </th>
             </tr>
-            {% for values in output %}
+
+            {% set start_record = (page * record_limit) - record_limit %}
+
+            {% for values in output| slice(start_record,record_limit) %}
                 <tr>    
                     <td> {{ values.title }} </td>
                     <td> 
                         <a href="edit_category.php?cat_id={{ values.cat_id }}">
                             <img alt="edit" src="images/edit.png" width="20" height="20">
                         </a>
-                        <a href="delete_category.php?cat_id={{ values.cat_id }}">
+                        <a href="delete_category.php?cat_id={{ values.cat_id }}" onclick="return confirmDelete()">
                             <img alt="delete" src="images/delete.png" width="20" height="20">
                         </a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+
+        {% set last = ((countRecords / record_limit)| round(0, 'ceil')) %}
+        {% if page != 1 %} 
+            <a href = "disp_category.php?page=1"> 
+                {{ "First" }}
+            </a>
+        {% endif %}
+        {% if page>=2 %}
+            <a href = "disp_category.php?page={{ page-1 }}"> 
+                {{ page-1 }} 
+            </a>
+            <a href = "disp_category.php?page={{ page }}"> 
+                {{ page }} 
+            </a>
+        {% endif %}
+        {% if page != last %}
+            <a href = "disp_category.php?page={{ page+1 }}"> 
+                {{ page+1 }} 
+            </a>
+            <a href = "disp_category.php?page={{ last }}"> 
+                {{ "Last" }} 
+            </a>
+        {% endif %}    
+   
     </body>
 </html>

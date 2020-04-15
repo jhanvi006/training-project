@@ -31,8 +31,9 @@
                 {
                     $title = $_POST["cat_title"];
                     $desc = $_POST["cat_desc"];
-                   
+
                     $output = $category->add_category($title, $desc);
+                    echo $output;
                     if ($output) {
                         $errors[] = "Category added successfully!";
                     }

@@ -15,8 +15,15 @@
             <div>
                 <div>
                     <p> {{ "Title:" }} 
-                        <input type="{{ type|default('text') }}" name="{{ 'edit_cat_title' }}"value="{{ output.title }}" />
+                        <input type="{{ type|default('text') }}" name="{{ 'edit_cat_title' }}" value="{{ output.title }}" />
                     </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p> {{ "Description:" }} </p>
+                        <textarea name='edit_cat_desc' rows="4" cols="20"> {{ output.description }} </textarea>
                 </div>
             </div>
 

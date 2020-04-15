@@ -13,21 +13,16 @@
         $category = new Category();
         $sql = "Select * from category where cat_id='".$_GET["cat_id"]."'";
         $output = $category->SelectOne($sql);
-
-        // if(empty($errors))
-        // {
             
-            $update = $category->delete_category($output["cat_id"]);
-            if ($update) {
-                $errors[] = "Category deleted successfully!";
-            }
-            else
-            {
-                $errors[] = "Error:";
-            }
-        //}
-        
-        echo $twig->render('disp_category.html.twig', ['errors' => $errors]);
+        $update = $category->delete_category($output["cat_id"]);
+        if ($update) {
+            //$errors[] = "Category deleted successfully!";
+            header("location: disp_category.php");
+        }
+        else
+        {
+            $errors[] = "Error:";
+        }
     }
     else
     {
