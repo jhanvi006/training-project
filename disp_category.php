@@ -10,19 +10,28 @@ require_once __DIR__ . "/models/Category.php";
 if(!empty($_SESSION["admin_email"]))
 {
 	$category = new Category();
-	$output = $category->display_category();
-
-	$countRecords = $category->count_records();
 
 	$record_limit = 2;
-	if( isset($_GET["page"] ) ) 
-		$page = $_GET["page"];
-	else 
-		$page = 1;
-	
-	$left_records = $countRecords - ($page * $record_limit);
+	$countRecords = $category->count_records();
+	$last = ceil($countRecords / $record_limit);
 
-	echo $twig->render('disp_category.html.twig', ['output' => $output, 'page' => $page, 'left_records' => $left_records, 'record_limit'=> $record_limit, 'countRecords' => $countRecords]);
+	if( isset($_GET["page"] ) )
+	{ 
+		$page = $_GET["page"];
+		
+		if ($page>$last) 
+			$page = $last;
+
+		$offset = ($page-1) * $record_limit; 
+	}
+	else 
+	{
+		$page = 1;
+		$offset = 0;
+	}
+	$output = $category->display_category($record_limit, $offset);
+
+	echo $twig->render('disp_category.html.twig', ['output' => $output, 'page' => $page, 'last' => $last]);
 }
 else
 {

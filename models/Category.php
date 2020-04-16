@@ -22,9 +22,9 @@ class Category extends database
 		return $result;
 	}
 
-	public function display_category()
+	public function display_category($record_limit, $offset)
 	{
-		$sql = "SELECT * FROM category";
+		$sql = "SELECT * FROM category LIMIT $offset, $record_limit";
 		$result = $this->selectAll($sql);
 		return $result;
 	}

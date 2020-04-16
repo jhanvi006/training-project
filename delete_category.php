@@ -15,8 +15,8 @@
         $output = $category->SelectOne($sql);
             
         $update = $category->delete_category($output["cat_id"]);
-        if ($update) {
-            //$errors[] = "Category deleted successfully!";
+        if ($update) 
+        {
             header("location: disp_category.php");
         }
         else
