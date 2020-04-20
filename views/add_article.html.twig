@@ -1,0 +1,49 @@
+{% include 'header.html.twig' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Add Article
+        </title>
+        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        <script>tinymce.init({selector:'#art_desc'});</script>
+    </head>
+    <body>
+        {% for error in errors %}
+            {{ error }}
+            {{ "\n"|nl2br }}
+        {% endfor %}
+        <form method="post" action="add_article.php" enctype = "multipart/form-data">    
+
+            <div>
+                <div>
+                    <p> {{ "Title:" }} 
+                        <input type="{{ type|default('text') }}" name="{{ 'art_title' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p> {{ "Description:" }} </p>
+                        <textarea name='art_desc' rows="20" cols="20" id="art_desc">  </textarea>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p> {{ "Image:" }} 
+                        <input type="{{ type|default('file') }}" name="{{ 'art_image' }}"  />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <input type="{{ type|default('submit') }}" name="{{ 'add-article' }}" value="{{ 'Add' }}" />
+                </div>
+            </div>
+
+        </form>
+    </body>
+</html>

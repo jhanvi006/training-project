@@ -1,0 +1,66 @@
+{% include 'header.html.twig' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            List of Articles
+        </title>
+        <script type='text/javascript'>
+            function confirmDelete()
+            {
+               return confirm("Are you sure you want to delete this item?");
+            }
+        </script>
+    </head>
+    <body>
+
+        <b> {{ "Articles:" }} </b>
+        <table border="1" width="600">
+            <tr>
+                <th> {{ "Title" }} </th>
+                <th> {{ "Description" }} </th>
+                <th> {{ "Images" }} </th>
+                <th> </th>
+            </tr>
+
+            {% for values in output %}
+                <tr>    
+                    <td> {{ values.title }} </td>
+                    <td> {{ values.description }} </td>
+                    <td> <img src="{{ values.image }}" width="50" height="50"> </td>
+                    <td> 
+                        <a href="edit_article.php?art_id={{ values.article_id }}">
+                            <img alt="edit" src="images/edit.png" width="20" height="20">
+                        </a>
+                        <a href="delete_article.php?art_id={{ values.article_id }}" onclick="return confirmDelete()">
+                            <img alt="delete" src="images/delete.png" width="20" height="20">
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        {% if page != 1 %} 
+            <a href = "disp_articles.php?page=1"> 
+                {{ "First" }}
+            </a>
+        {% endif %}
+        {% if page>=2 and page<=last %}
+            <a href = "disp_articles.php?page={{ page-1 }}"> 
+                {{ page-1 }} 
+            </a>
+            <a href = "disp_articles.php?page={{ page }}"> 
+                {{ page }} 
+            </a>
+        {% endif %}
+        {% if page != last %}
+            <a href = "disp_articles.php?page={{ page+1 }}"> 
+                {{ page+1 }} 
+            </a>
+            <a href = "disp_articles.php?page={{ last }}"> 
+                {{ "Last" }} 
+            </a>
+        {% endif %}
+   
+    </body>
+</html>

@@ -1,0 +1,50 @@
+{% include 'header.html.twig' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Edit article
+        </title>
+        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        <script>tinymce.init({ selector : '#edit_art_desc',
+        plugins : "save",
+        menubar : false,
+        toolbar: 'save | styleselect | bold italic | alignleft aligncenter alignright alignjustify'});</script>
+    </head>
+    <body>
+        {% for error in errors %}
+            {{ error }}
+            {{ "\n"|nl2br }}
+        {% endfor %}
+        <form method="post" action="edit_article.php?art_id={{ output.article_id }}" enctype = "multipart/form-data">    
+            <div>
+                <div>
+                    <p> {{ "Title:" }} 
+                        <input type="{{ type|default('text') }}" name="{{ 'edit_art_title' }}" value="{{ output.title }}" />
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p> {{ "Description:" }} </p>
+                        <textarea name='edit_art_desc' id="edit_art_desc"> {{ output.description }} </textarea>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <p> {{ "Image:" }} 
+                        <input type="{{ type|default('file') }}" name="{{ 'edit_art_image' }}" /> 
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <input type="{{ type|default('submit') }}" name="{{ 'edit-article' }}" value="{{ 'Edit' }}" />
+                </div>
+            </div>
+        </form>
+    </body>
+</html>
