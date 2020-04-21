@@ -27,10 +27,9 @@
             // echo(empty($_FILES["edit_art_image"]));
             // echo "<br>";
             if(empty($_FILES["edit_art_image"]))
-            {
-                if($_FILES["edit_art_image"]["type"] != "image/jpeg" && $_FILES["edit_art_image"]["type"] != "image/jpg" && $_FILES["edit_art_image"]["type"] != "image/png") {
-                    $errors[] = "Error: Invalid file. Please choose a JPEG or PNG file!";
-                }
+                $errors[] = "Error: No image is selected!";
+            else if($_FILES["edit_art_image"]["type"] != "image/jpeg" && $_FILES["edit_art_image"]["type"] != "image/jpg" && $_FILES["edit_art_image"]["type"] != "image/png") {
+                $errors[] = "Error: Invalid file. Please choose a JPEG or PNG file!";
             }
             
 

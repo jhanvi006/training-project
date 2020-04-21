@@ -47,4 +47,11 @@ class Article extends database
 		$result = $this->execute($sql);
 		return $result;
 	}
+
+	public function delete_article($art_id)
+	{
+		$sql = "DELETE FROM article WHERE article_id='$art_id'";
+		$result = $this->execute($sql);
+		return $result;
+	}
 }
