@@ -11,7 +11,7 @@ if(!empty($_SESSION["admin_email"]))
 {
 	$article = new Article();
 
-	$record_limit = 2;
+	$record_limit = 5;
 	$countRecords = $article->count_records();
 	$last = ceil($countRecords / $record_limit);
 
@@ -31,7 +31,7 @@ if(!empty($_SESSION["admin_email"]))
 	}
 	$output = $article->display_article($record_limit, $offset);
 
-	echo $twig->render('disp_articles.html.twig', ['output' => $output, 'page' => $page, 'last' => $last]);
+	echo $twig->render('disp_articles.html.twig', ['output' => $output, 'page' => $page, 'last' => $last, 'countRecords' => $countRecords, 'record_limit' => $record_limit]);
 }
 else
 {

@@ -35,10 +35,6 @@
 
             if(empty($errors))
             {
-                $art_exists = $article->article_exists($_POST["edit_art_title"]);
-                if ($art_exists) {
-                    $errors[] = "Error: Article already exists!";
-                }
                 $title = $_POST["edit_art_title"];
                 $desc = $_POST["edit_art_desc"];
                 $img_name = $_FILES["edit_art_image"]["name"];
@@ -52,7 +48,7 @@
                 }
                 else
                 {
-                    $errors[] = "Error:";
+                    $errors[] = "Error: unable to update!";
                 }
 
             }

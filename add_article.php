@@ -23,33 +23,33 @@
             elseif($_FILES["art_image"]["type"] != "image/jpeg" && $_FILES["art_image"]["type"] != "image/jpg" && $_FILES["art_image"]["type"] != "image/png") {
             	$errors[] = "Error: Invalid file. Please choose a JPEG or PNG file!";
             }
-            //var_dump($_FILES["art_image"]);
 
             if(empty($errors) ) {
 
-                $article = new Article();
+    			$article = new Article();
 
-                $output = $article->article_exists($_POST["art_title"]);
-                if ($output) {
-                    $errors[] = "Error: Article already exists!";
-                }
-            
-                if(!$output)
+                $title = $_POST["art_title"];
+                $desc = $_POST["art_desc"];
+                $img_name = $_FILES["art_image"]["name"];
+                $fileType = $_FILES["art_image"]["type"];
+                $target_dir = "images/upload_images/";
+                $target_file = $target_dir.$img_name;
+                $thumb_dir = "images/upload_image_thumb/";
+               
+                move_uploaded_file($_FILES['art_image']['tmp_name'],$target_file);
+                echo $target_file."<br>";
+                chmod($target_file, 777); 
+            	$thumb_img = $article->createThumbImg($target_file, $thumb_dir, $fileType, 50, 50);
+                $output = $article->add_article($title, $desc, $target_file);
+                if ($output) 
                 {
-                    $title = $_POST["art_title"];
-                    $desc = $_POST["art_desc"];
-                    $img_name = $_FILES['art_image']['name'];
-                    $target_dir = "images/upload_images/";
-                    $target_file = $target_dir.$img_name;
-                   
-                    $output = $article->add_article($title, $desc, $target_file);
-                    if ($output) {
-                        $errors[] = "Article added successfully!";
-                        move_uploaded_file($_FILES['art_image']['tmp_name'],$target_file);
-                    }
+                	if($thumb_img)
+                    	$errors[] = "Article added successfully!";
                     else
-                        $errors[] = "Error: unable to add";
-                }      
+                    	$errors[] = "Error: Failed to create thumbnail image!";
+                }
+                else
+                    $errors[] = "Error: unable to add";   
             }
         }
         echo $twig->render('add_article.html.twig', array('errors' => $errors));

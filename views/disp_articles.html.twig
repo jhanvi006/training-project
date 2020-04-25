@@ -40,27 +40,28 @@
             {% endfor %}
         </table>
 
-        {% if page != 1 %} 
-            <a href = "disp_articles.php?page=1"> 
-                {{ "First" }}
-            </a>
+        {% if countRecords>record_limit %}
+            {% if page != 1 %} 
+                <a href = "disp_articles.php?page=1"> 
+                    {{ "First" }}
+                </a>
+            {% endif %}
+            {% if page>=2 and page<=last %}
+                <a href = "disp_articles.php?page={{ page-1 }}"> 
+                    {{ page-1 }} 
+                </a>
+                <a href = "disp_articles.php?page={{ page }}"> 
+                    {{ page }} 
+                </a>
+            {% endif %}
+            {% if page != last %}
+                <a href = "disp_articles.php?page={{ page+1 }}"> 
+                    {{ page+1 }} 
+                </a>
+                <a href = "disp_articles.php?page={{ last }}"> 
+                    {{ "Last" }} 
+                </a>
+            {% endif %}
         {% endif %}
-        {% if page>=2 and page<=last %}
-            <a href = "disp_articles.php?page={{ page-1 }}"> 
-                {{ page-1 }} 
-            </a>
-            <a href = "disp_articles.php?page={{ page }}"> 
-                {{ page }} 
-            </a>
-        {% endif %}
-        {% if page != last %}
-            <a href = "disp_articles.php?page={{ page+1 }}"> 
-                {{ page+1 }} 
-            </a>
-            <a href = "disp_articles.php?page={{ last }}"> 
-                {{ "Last" }} 
-            </a>
-        {% endif %}
-   
     </body>
 </html>

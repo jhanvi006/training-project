@@ -31,7 +31,7 @@ if(!empty($_SESSION["admin_email"]))
 	}
 	$output = $category->display_category($record_limit, $offset);
 
-	echo $twig->render('disp_category.html.twig', ['output' => $output, 'page' => $page, 'last' => $last]);
+	echo $twig->render('disp_category.html.twig', ['output' => $output, 'page' => $page, 'last' => $last, 'record_limit' => $record_limit, 'countRecords' => $countRecords]);
 }
 else
 {

@@ -2,17 +2,6 @@
 
 class Article extends database
 {
-	public function article_exists($title)
-	{
-		$sql = "SELECT * FROM article WHERE title = '$title'";
-
-		$result = mysqli_query($this->connect, $sql);
-
-        if (mysqli_num_rows($result) > 0) {
-            return true;
-		}
-	}
-
 	public function add_article($title, $desc, $img_name)
 	{
 		$e_title = mysqli_escape_string($this->connect, $title);
@@ -53,5 +42,32 @@ class Article extends database
 		$sql = "DELETE FROM article WHERE article_id='$art_id'";
 		$result = $this->execute($sql);
 		return $result;
+	}
+
+	//public function createThumbImg($target_folder, $file_name, $thumb_folder)
+	public function createThumbImg($sourcePath, $targetPath, $file_type, $thumbWidth, $thumbHeight) 
+	{
+		$source = imagecreatefromjpeg($sourcePath);
+	
+	    $width = imagesx($source);
+		$height = imagesy($source);
+		
+		$tnumbImage = imagecreatetruecolor($thumbWidth, $thumbHeight);
+		
+		imagecopyresampled($tnumbImage, $source, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $width, $height);
+		//header('Content-type: image/jpeg');
+		//move_uploaded_file($_FILES['art_image']['tmp_name'],$target_file);
+		echo $tnumbImage."  ".$targetPath;
+
+		if (imagejpeg($tnumbImage, $targetPath, 90)) 
+		{
+		 //    imagedestroy($tnumbImage);
+			// imagedestroy($source);
+			return TRUE;
+		} 
+		else 
+		{
+			return FALSE;
+		}
 	}
 }

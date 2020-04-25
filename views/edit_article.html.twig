@@ -7,6 +7,7 @@
         </title>
         <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
         <script>tinymce.init({ selector : '#edit_art_desc',
+        mode: "exact",
         plugins : "save",
         menubar : false,
         toolbar: 'save | styleselect | bold italic | alignleft aligncenter alignright alignjustify'});</script>
@@ -34,9 +35,9 @@
 
             <div>
                 <div>
-                    <p> {{ "Image:" }} 
+                    <p> {{ "Image:" }} </p>
+                        <img src="{{ output.image }}" />
                         <input type="{{ type|default('file') }}" name="{{ 'edit_art_image' }}" /> 
-                    </p>
                 </div>
             </div>
 
