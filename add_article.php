@@ -27,29 +27,31 @@
             if(empty($errors) ) {
 
     			$article = new Article();
-
+    			$id = $article->getId();
+    			//$curr_id = $id+1;
                 $title = $_POST["art_title"];
                 $desc = $_POST["art_desc"];
-                $img_name = $_FILES["art_image"]["name"];
+                $img_name = "orig_".$id;
+                $thumb_img_name = "thumb_".$id;
                 $fileType = $_FILES["art_image"]["type"];
                 $target_dir = "images/upload_images/";
                 $target_file = $target_dir.$img_name;
                 $thumb_dir = "images/upload_image_thumb/";
+                $target_thumb_file = $thumb_dir.$thumb_img_name;
                
-                move_uploaded_file($_FILES['art_image']['tmp_name'],$target_file);
-                echo $target_file."<br>";
-                chmod($target_file, 777); 
-            	$thumb_img = $article->createThumbImg($target_file, $thumb_dir, $fileType, 50, 50);
-                $output = $article->add_article($title, $desc, $target_file);
+                
+            	$output = $article->add_article($title, $desc, $target_file);
                 if ($output) 
                 {
-                	if($thumb_img)
-                    	$errors[] = "Article added successfully!";
-                    else
-                    	$errors[] = "Error: Failed to create thumbnail image!";
+                	$errors[] = "Article added successfully!";
+	                move_uploaded_file($_FILES['art_image']['tmp_name'],$target_file);
                 }
                 else
                     $errors[] = "Error: unable to add";   
+            	
+            	$thumb_img = $article->createThumbImg($target_file, $target_thumb_file, $fileType, 50, 50);
+            	if(!$thumb_img)
+                    $errors[] = "Error: Failed to create thumbnail image!";
             }
         }
         echo $twig->render('add_article.html.twig', array('errors' => $errors));

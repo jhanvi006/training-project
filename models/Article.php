@@ -44,30 +44,58 @@ class Article extends database
 		return $result;
 	}
 
+	public function getId()
+	{
+		$sql = "SELECT article_id FROM article ORDER BY article_id DESC LIMIT 1";
+		$result = $this->selectOne($sql);
+		//$last_id = mysqli_insert_id($sql);
+		//echo $result["article_id"];
+		return $result["article_id"];
+	}
+
 	//public function createThumbImg($target_folder, $file_name, $thumb_folder)
 	public function createThumbImg($sourcePath, $targetPath, $file_type, $thumbWidth, $thumbHeight) 
 	{
-		$source = imagecreatefromjpeg($sourcePath);
-	
-	    $width = imagesx($source);
-		$height = imagesy($source);
 		
-		$tnumbImage = imagecreatetruecolor($thumbWidth, $thumbHeight);
-		
-		imagecopyresampled($tnumbImage, $source, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $width, $height);
-		//header('Content-type: image/jpeg');
-		//move_uploaded_file($_FILES['art_image']['tmp_name'],$target_file);
-		echo $tnumbImage."  ".$targetPath;
-
-		if (imagejpeg($tnumbImage, $targetPath, 90)) 
+		if($file_type == "image/jpeg" || $file_type == "image/jpg")
 		{
-		 //    imagedestroy($tnumbImage);
-			// imagedestroy($source);
-			return TRUE;
-		} 
+			$source = imagecreatefromjpeg($sourcePath);
+		
+		    $width = imagesx($source);
+			$height = imagesy($source);
+			
+			$tnumbImage = imagecreatetruecolor($thumbWidth, $thumbHeight);
+			
+			imagecopyresampled($tnumbImage, $source, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $width, $height);
+			if (imagejpeg($tnumbImage, $targetPath, 90)) 
+			{
+			 //    imagedestroy($tnumbImage);
+				// imagedestroy($source);
+				return TRUE;
+			} 
+			else 
+			{
+				return FALSE;
+			}
+		}
 		else 
 		{
-			return FALSE;
+			$source = imagecreatefrompng($sourcePath);
+		
+		    $width = imagesx($source);
+			$height = imagesy($source);
+			
+			$tnumbImage = imagecreatetruecolor($thumbWidth, $thumbHeight);
+			
+			imagecopyresampled($tnumbImage, $source, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $width, $height);
+			if (imagepng($tnumbImage, $targetPath, 9)) 
+			{
+				return TRUE;
+			} 
+			else 
+			{
+				return FALSE;
+			}
 		}
 	}
 }
