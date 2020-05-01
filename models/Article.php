@@ -27,20 +27,24 @@ class Article extends database
 		return $count;
 	}
 
-	public function edit_article($title, $desc, $img_name, $title_cond)
+	public function edit_article($title, $desc, $img_name, $id)
 	{
 		$e_title = mysqli_escape_string($this->connect, $title);
 		$e_desc = mysqli_escape_string($this->connect, $desc);
 		$e_img_name = mysqli_escape_string($this->connect, $img_name);
-		$sql = "UPDATE article SET title='$e_title', description='$e_desc', image='$e_img_name' WHERE title='$title_cond'";
+		$sql = "UPDATE article SET title='$e_title', description='$e_desc', image='$e_img_name' WHERE article_id='$id'";
 		$result = $this->execute($sql);
 		return $result;
 	}
 
 	public function delete_article($art_id)
 	{
+		$sql_select = "SELECT * FROM article WHERE article_id='$art_id'";
+		$result_select = $this->selectOne($sql_select);
 		$sql = "DELETE FROM article WHERE article_id='$art_id'";
 		$result = $this->execute($sql);
+		if($result == TRUE)
+			unlink($result_select["image"]);
 		return $result;
 	}
 
