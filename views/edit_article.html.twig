@@ -40,8 +40,12 @@
             <div>
                 <div>
                     <p> {{ "Image:" }} </p>
-                    <p>    
-                        <img id="ImdID" src="{{ target_thumb_file }}" alt="Image" />
+                    <p> 
+                        {% if target_thumb_file is not empty %}   
+                            <img id="ImdID" src="{{ target_thumb_file }}" alt="Image" />
+                        {% else %}
+                            <img src="{{ output.image }}" alt="Image" width="50" height="50" />
+                        {% endif %}
                         <input type="{{ type|default('file') }}" name="{{ 'edit_art_image' }}"/> 
                     </p>
                 </div>

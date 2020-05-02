@@ -37,14 +37,17 @@ class Article extends database
 		return $result;
 	}
 
-	public function delete_article($art_id)
+	public function delete_article($art_id, $thumb_file)
 	{
 		$sql_select = "SELECT * FROM article WHERE article_id='$art_id'";
 		$result_select = $this->selectOne($sql_select);
 		$sql = "DELETE FROM article WHERE article_id='$art_id'";
 		$result = $this->execute($sql);
 		if($result == TRUE)
+		{
 			unlink($result_select["image"]);
+			unlink($thumb_file);
+		}
 		return $result;
 	}
 
