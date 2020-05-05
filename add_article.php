@@ -10,6 +10,11 @@
     
     if(!empty($_SESSION["admin_email"]))
     {
+    	$article = new Article();
+        $categories = $article->getCategory();
+        //var_dump($category);
+
+
         if(!empty($_POST)) { 
     
             if(empty($_POST["art_title"]))
@@ -18,15 +23,18 @@
             if(empty($_POST["art_desc"]))
                 $errors[] = "Error: Description is empty!";
 
+            if(empty($_POST["art_cat"]))
+            	$errors[] = "Error: Select at least one category!";
+
             if(empty($_FILES["art_image"]))
                 $errors[] = "Error: No image is selected!";
             elseif($_FILES["art_image"]["type"] != "image/jpeg" && $_FILES["art_image"]["type"] != "image/jpg" && $_FILES["art_image"]["type"] != "image/png") {
             	$errors[] = "Error: Invalid file. Please choose a JPEG or PNG file!";
             }
 
+
             if(empty($errors) ) {
 
-    			$article = new Article();
     			$id = $article->getId();
     			//$curr_id = $id+1;
                 $title = $_POST["art_title"];
@@ -39,12 +47,12 @@
                 $thumb_dir = "images/upload_image_thumb/";
                 $target_thumb_file = $thumb_dir.$thumb_img_name;
                
-                
             	$output = $article->add_article($title, $desc, $target_file);
                 if ($output) 
                 {
-                	$errors[] = "Article added successfully!";
 	                move_uploaded_file($_FILES['art_image']['tmp_name'],$target_file);
+	                $article->addCategory($id, $_POST["art_cat"]);
+                	$errors[] = "Article added successfully!";
                 }
                 else
                     $errors[] = "Error: unable to add";   
@@ -52,9 +60,13 @@
             	$thumb_img = $article->createThumbImg($target_file, $target_thumb_file, $fileType, 50, 50);
             	if(!$thumb_img)
                     $errors[] = "Error: Failed to create thumbnail image!";
+                $save_image = $article->addImage($id, $target_file, $target_thumb_file);
+                if(!$save_image)
+                	$errors[] = "Error: Failed to save image!";
             }
         }
-        echo $twig->render('add_article.html.twig', array('errors' => $errors));
+        //var_dump($category);
+        echo $twig->render('add_article.html.twig', array('errors' => $errors, 'categories'=>$categories));
     }
     else
     {

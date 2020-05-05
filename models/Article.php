@@ -60,6 +60,26 @@ class Article extends database
 		return $result["article_id"];
 	}
 
+	public function getCategory()
+	{
+		$sql = "SELECT title FROM category";
+		$result = $this->selectAll($sql);
+		return $result;
+	}
+
+	public function addCategory($id, $category)
+	{
+		foreach ($category as $category) 
+		{
+			$cat = mysqli_escape_string($category);
+			$get_cat_id = "SELECT cat_id FROM category WHERE title='$cat'";
+			$category_id = $this->selectOne($get_cat_id);
+			var_dump($category_id["cat_id"]);
+			$sql = "INSERT INTO article_categories(article_id, article_cat_id) VALUES($id, $category_id['cat_id'])";
+			$category = $this->execute($sql);
+		}
+	}
+
 	//public function createThumbImg($target_folder, $file_name, $thumb_folder)
 	public function createThumbImg($sourcePath, $targetPath, $file_type, $thumbWidth, $thumbHeight) 
 	{
@@ -104,5 +124,12 @@ class Article extends database
 				return FALSE;
 			}
 		}
+	}
+
+	public function addImage($id, $target_file, $target_thumb_file)
+	{
+		$sql = "INSERT INTO article_image(article_id, org_img_path, thumb_img_path) VALUES($id, $target_file, $target_thumb_file)";
+		$save_img = $this->execute($sql);
+		return $save_img;
 	}
 }

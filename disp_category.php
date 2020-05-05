@@ -11,7 +11,7 @@ if(!empty($_SESSION["admin_email"]))
 {
 	$category = new Category();
 
-	$record_limit = 2;
+	$record_limit = 5;
 	$countRecords = $category->count_records();
 	$last = ceil($countRecords / $record_limit);
 
