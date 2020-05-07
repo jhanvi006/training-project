@@ -12,7 +12,7 @@
     {
     	$article = new Article();
         $categories = $article->getCategory();
-        //var_dump($category);
+        //var_dump($categories);
 
 
         if(!empty($_POST)) { 
@@ -32,16 +32,18 @@
             	$errors[] = "Error: Invalid file. Please choose a JPEG or PNG file!";
             }
 
-
             if(empty($errors) ) {
 
-    			$id = $article->getId();
-    			//$curr_id = $id+1;
                 $title = $_POST["art_title"];
                 $desc = $_POST["art_desc"];
-                $img_name = "orig_".$id;
-                $thumb_img_name = "thumb_".$id;
+
+    			$id = $article->getId();
+    			$curr_id = $id+1;
+
                 $fileType = $_FILES["art_image"]["type"];
+                $extension = pathinfo($_FILES["art_image"]["name"], PATHINFO_EXTENSION);
+                $img_name = "orig_".$curr_id.".".$extension;
+                $thumb_img_name = "thumb_".$curr_id.".".$extension;
                 $target_dir = "images/upload_images/";
                 $target_file = $target_dir.$img_name;
                 $thumb_dir = "images/upload_image_thumb/";
@@ -51,18 +53,21 @@
                 if ($output) 
                 {
 	                move_uploaded_file($_FILES['art_image']['tmp_name'],$target_file);
-	                $article->addCategory($id, $_POST["art_cat"]);
+	                $article->addCategory($curr_id, $_POST["art_cat"]);
+	            	$thumb_img = $article->createThumbImg($target_file, $target_thumb_file, $fileType, 50, 50);
+	            	if($thumb_img)
+	                {
+		                //echo($curr_id." ".$target_file." ".$target_thumb_file."<br>");
+		                $save_image = $article->addImage($curr_id, $target_file, $target_thumb_file);
+		                if(!$save_image)
+		                	$errors[] = "Error: Failed to save image!";
+		            }
+		            else
+	                	$errors[] = "Error: Failed to create thumbnail image!";
                 	$errors[] = "Article added successfully!";
                 }
                 else
                     $errors[] = "Error: unable to add";   
-            	
-            	$thumb_img = $article->createThumbImg($target_file, $target_thumb_file, $fileType, 50, 50);
-            	if(!$thumb_img)
-                    $errors[] = "Error: Failed to create thumbnail image!";
-                $save_image = $article->addImage($id, $target_file, $target_thumb_file);
-                if(!$save_image)
-                	$errors[] = "Error: Failed to save image!";
             }
         }
         //var_dump($category);

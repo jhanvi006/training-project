@@ -17,6 +17,7 @@
         <b> {{ "Articles:" }} </b>
         <table border="1" width="600">
             <tr>
+                <th> {{ "Category" }} </th>
                 <th> {{ "Title" }} </th>
                 <th> {{ "Description" }} </th>
                 <th> {{ "Images" }} </th>
@@ -25,6 +26,9 @@
 
             {% for values in output %}
                 <tr>    
+                    
+                        <td> {{ cat_output }} </td>
+                    
                     <td> {{ values.title }} </td>
                     <td> {{ values.description }} </td>
                     <td> <img src="{{ values.image }}" width="50" height="50"> </td>

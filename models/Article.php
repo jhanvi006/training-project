@@ -19,6 +19,32 @@ class Article extends database
 		return $result;
 	}
 
+	public function display_category($id, $record_limit, $offset)
+	{
+		$sql = "SELECT article_cat_id FROM article_categories WHERE article_id=$id";
+		//echo $sql."<br>";
+		$art_id = $this->selectAll($sql);
+		$count = count($art_id);
+		// var_dump($art_id);
+		// echo "<br>";
+		// while($count != 0)
+		// {
+		// 	echo "key: ".key($art_id)."<br>";
+		// 	echo "count: ".$count."<br>";
+				foreach ($art_id as $value) {
+					# code...
+					$category_id = $value["article_cat_id"];
+					//echo "category_id: ".$category_id."<br>";
+					$cat_sql = "SELECT title FROM category WHERE cat_id=$category_id";
+					$category = $this->selectAll($cat_sql);
+					echo "category: ";
+					var_dump($category);
+					//return $category;
+				}
+		// 	$count = $count - 1;
+		// }
+	}
+
 	public function count_records()
 	{
 		$sql = "SELECT * FROM article";
@@ -37,6 +63,7 @@ class Article extends database
 		return $result;
 	}
 
+
 	public function delete_article($art_id, $thumb_file)
 	{
 		$sql_select = "SELECT * FROM article WHERE article_id='$art_id'";
@@ -50,6 +77,22 @@ class Article extends database
 		}
 		return $result;
 	}
+	
+	public function edit_image($id, $target_file, $target_thumb_file)
+	{
+		$sql = "UPDATE article_image SET org_img_path='$target_file', thumb_img_path='$target_thumb_file' WHERE article_id='$id'";
+		$result = $this->execute($sql);
+		return $result;
+	}
+
+	public function addImage($id, $target_file, $target_thumb_file)
+	{
+		$sql = "INSERT INTO article_image(article_id, org_img_path, thumb_img_path) VALUES($id, '$target_file', '$target_thumb_file')";
+		//echo "1.".$sql;
+		$save_img = $this->execute($sql);
+		var_dump($save_img);
+		return $save_img;
+	}
 
 	public function getId()
 	{
@@ -60,22 +103,26 @@ class Article extends database
 		return $result["article_id"];
 	}
 
+
 	public function getCategory()
 	{
-		$sql = "SELECT title FROM category";
+		$sql = "SELECT * FROM category";
 		$result = $this->selectAll($sql);
 		return $result;
 	}
 
-	public function addCategory($id, $category)
+
+	public function addCategory($id, $category_id)
 	{
-		foreach ($category as $category) 
+		foreach ($category_id as $category_id) 
 		{
-			$cat = mysqli_escape_string($category);
-			$get_cat_id = "SELECT cat_id FROM category WHERE title='$cat'";
-			$category_id = $this->selectOne($get_cat_id);
-			var_dump($category_id["cat_id"]);
-			$sql = "INSERT INTO article_categories(article_id, article_cat_id) VALUES($id, $category_id['cat_id'])";
+			// var_dump(mysqli_escape_string($this->connect, $category));	
+			// $cat = mysqli_escape_string($this->connect, $category);
+			// $get_cat_id = "SELECT cat_id FROM category WHERE title='$cat'";
+			// $category_id = $this->selectOne($get_cat_id);
+			// $add_cat_id = $category_id["cat_id"];
+			// var_dump($add_cat_id);
+			$sql = "INSERT INTO article_categories(article_id, article_cat_id) VALUES($id, $category_id)";
 			$category = $this->execute($sql);
 		}
 	}
@@ -126,10 +173,4 @@ class Article extends database
 		}
 	}
 
-	public function addImage($id, $target_file, $target_thumb_file)
-	{
-		$sql = "INSERT INTO article_image(article_id, org_img_path, thumb_img_path) VALUES($id, $target_file, $target_thumb_file)";
-		$save_img = $this->execute($sql);
-		return $save_img;
-	}
 }

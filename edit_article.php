@@ -48,27 +48,36 @@
             {
                 $title = $_POST["edit_art_title"];
                 $desc = $_POST["edit_art_desc"];
+                
                 $id = $output["article_id"];
-                $img_name = "orig_".$id;
-                $thumb_img_name = "thumb_".$id;
+                $extension = pathinfo($_FILES["edit_art_image"]["name"], PATHINFO_EXTENSION);
+                $img_name = "orig_".$id.".".$extension;
+                $thumb_img_name = "thumb_".$id.".".$extension;
                 $fileType = $_FILES["edit_art_image"]["type"];
                 $target_dir = "images/upload_images/";
-                $target_file = $target_dir.$img_name;
+                $target_file = $target_dir.$img_name.".".$fileType;
                 $thumb_dir = "images/upload_image_thumb/";
-                $target_thumb_file = $thumb_dir.$thumb_img_name;
+                $target_thumb_file = $thumb_dir.$thumb_img_name.".".$fileType;
 
                 $update = $article->edit_article($title, $desc, $target_file, $id);
                 if ($update) {
-                    $errors[] = "Upadated data successfully!";
                     move_uploaded_file($_FILES['edit_art_image']['tmp_name'],$target_file);
+                    $thumb_img = $article->createThumbImg($target_file, $target_thumb_file, $fileType, 50, 50);
+                    if($thumb_img)
+                    {
+                        //echo($curr_id." ".$target_file." ".$target_thumb_file."<br>");
+                        $save_image = $article->edit_image($id, $target_file, $target_thumb_file);
+                        if(!$save_image)
+                            $errors[] = "Error: Failed to save image!";
+                    }
+                    else
+                        $errors[] = "Error: Failed to create thumbnail image!";
+                    $errors[] = "Upadated data successfully!";
                 }
                 else
                 {
                     $errors[] = "Error: unable to update!";
                 }
-                $thumb_img = $article->createThumbImg($target_file, $target_thumb_file, $fileType, 50, 50);
-                if(!$thumb_img)
-                    $errors[] = "Error: Failed to create thumbnail image!";
             }
         }
         

@@ -30,8 +30,18 @@ if(!empty($_SESSION["admin_email"]))
 		$offset = 0;
 	}
 	$output = $article->display_article($record_limit, $offset);
+	//var_dump($output);
+	foreach ($output as $values) {
+		//echo $values["article_id"]."<br>";
+		$cat_output = $article->display_category($values["article_id"],$record_limit, $offset);
+		var_dump($cat_output);
+		// foreach ($values as $value) {
+		// }
+		echo "<br>";
+	}
+	// echo "<br>";
 
-	echo $twig->render('disp_articles.html.twig', ['output' => $output, 'page' => $page, 'last' => $last, 'countRecords' => $countRecords, 'record_limit' => $record_limit]);
+	echo $twig->render('disp_articles.html.twig', ['output' => $output, 'cat_output' => $cat_output, 'page' => $page, 'last' => $last, 'countRecords' => $countRecords, 'record_limit' => $record_limit]);
 }
 else
 {

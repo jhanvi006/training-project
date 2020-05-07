@@ -5,12 +5,24 @@
         <title>
             Add Article
         </title>
+        <script type='text/javascript'>
+            function preview_image(event) 
+            {
+             var reader = new FileReader();
+             reader.onload = function()
+             {
+              var output = document.getElementById('imgId');
+              output.src = reader.result;
+             }
+             reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
         <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
         <script>tinymce.init({selector:'#art_desc',
         mode: "exact",
         plugins : "save",
         menubar : false,
-        toolbar: 'save | styleselect | bold italic | alignleft aligncenter alignright alignjustify'});</script>
+        toolbar: 'save | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify'});</script>
     </head>
     <body>
         {% for error in errors %}
@@ -32,7 +44,7 @@
                     <p> {{ "Category:" }} </p>
                     <select name="{{ 'art_cat[]' }}" multiple>
                         {% for category in categories %}
-                            <option value={{ category.title }}> {{ category.title }} </option>
+                            <option value={{ category.cat_id }}> {{ category.title }} </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -48,7 +60,8 @@
             <div>
                 <div>
                     <p> {{ "Image:" }} 
-                        <input type="{{ type|default('file') }}" name="{{ 'art_image' }}"  />
+                        <input type="{{ type|default('file') }}" name="{{ 'art_image' }}" onchange="preview_image(event)" />
+                        <img id="imgId" width="50" height="50" />
                     </p>
                 </div>
             </div>

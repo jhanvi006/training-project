@@ -42,7 +42,7 @@
                     <p> {{ "Image:" }} </p>
                     <p> 
                         {% if target_thumb_file is not empty %}   
-                            <img id="ImdID" src="{{ target_thumb_file }}" alt="Image" />
+                            <img src="{{ target_thumb_file }}" alt="Image" />
                         {% else %}
                             <img src="{{ output.image }}" alt="Image" width="50" height="50" />
                         {% endif %}
