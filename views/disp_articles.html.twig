@@ -24,11 +24,12 @@
                 <th> </th>
             </tr>
 
+            {{dump(cat_title)}}
             {% for values in output %}
                 <tr>    
-                    
-                        <td> {{ cat_output }} </td>
-                    
+                    <td>
+                        {{ cat_title|join(" ") }}
+                    </td>
                     <td> {{ values.title }} </td>
                     <td> {{ values.description }} </td>
                     <td> <img src="{{ values.image }}" width="50" height="50"> </td>

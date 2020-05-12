@@ -11,8 +11,13 @@
     if(!empty($_SESSION["admin_email"]))
     {
         $article = new Article();
-        $sql = "Select * from article where article_id='".$_GET["art_id"]."'";
+        $sql = "SELECT * FROM article WHERE article_id='".$_GET["art_id"]."'";
         $output = $article->SelectOne($sql);
+
+        $sql = "SELECT article_cat_id FROM article_categories WHERE article_id='".$_GET["art_id"]."'";
+        $cat_id = $article->selectAll($sql);
+        echo $cat_id;
+        $categories = $article->getCategory();
 
         if(!empty($_POST))
         {
@@ -81,7 +86,7 @@
             }
         }
         
-        echo $twig->render('edit_article.html.twig', ['output' => $output, 'target_thumb_file' => $target_thumb_file,'errors' => $errors]);
+        echo $twig->render('edit_article.html.twig', ['output' => $output, 'categories' => $categories, 'target_thumb_file' => $target_thumb_file,'errors' => $errors]);
     }
     else
     {

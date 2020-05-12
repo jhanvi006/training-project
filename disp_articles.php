@@ -34,14 +34,30 @@ if(!empty($_SESSION["admin_email"]))
 	foreach ($output as $values) {
 		//echo $values["article_id"]."<br>";
 		$cat_output = $article->display_category($values["article_id"],$record_limit, $offset);
-		var_dump($cat_output);
-		// foreach ($values as $value) {
-		// }
 		echo "<br>";
-	}
-	// echo "<br>";
+		var_dump($cat_output);
+		// var_dump($art_id);
+		// echo "<br>";
 
-	echo $twig->render('disp_articles.html.twig', ['output' => $output, 'cat_output' => $cat_output, 'page' => $page, 'last' => $last, 'countRecords' => $countRecords, 'record_limit' => $record_limit]);
+		// 	echo "key: ".key($art_id)."<br>";
+		foreach ($cat_output as $value) 
+		{
+			$category_id = $value["article_cat_id"];
+			//echo "category_id: ".$category_id."<br>";
+			$cat_sql = "SELECT title FROM category WHERE cat_id=$category_id";
+			$category = $article->selectAll($cat_sql);
+			// echo "<br> category: ";
+			// var_dump($category);
+			//return $category;
+			foreach ($category as $values) {
+				$cat_title[] = $values["title"];
+				// echo "<br> cat_title: ";
+				// var_dump($cat_title);
+			}
+		}
+	}
+
+	echo $twig->render('disp_articles.html.twig', ['output' => $output, 'cat_title' => $cat_title, 'page' => $page, 'last' => $last, 'countRecords' => $countRecords, 'record_limit' => $record_limit]);
 }
 else
 {

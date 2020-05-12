@@ -24,25 +24,24 @@ class Article extends database
 		$sql = "SELECT article_cat_id FROM article_categories WHERE article_id=$id";
 		//echo $sql."<br>";
 		$art_id = $this->selectAll($sql);
-		$count = count($art_id);
-		// var_dump($art_id);
-		// echo "<br>";
-		// while($count != 0)
-		// {
-		// 	echo "key: ".key($art_id)."<br>";
-		// 	echo "count: ".$count."<br>";
-				foreach ($art_id as $value) {
-					# code...
-					$category_id = $value["article_cat_id"];
-					//echo "category_id: ".$category_id."<br>";
-					$cat_sql = "SELECT title FROM category WHERE cat_id=$category_id";
-					$category = $this->selectAll($cat_sql);
-					echo "category: ";
-					var_dump($category);
-					//return $category;
-				}
-		// 	$count = $count - 1;
+		// $count = count($art_id);
+		// // var_dump($art_id);
+		// // echo "<br>";
+
+		// // 	echo "key: ".key($art_id)."<br>";
+		// // 	echo "count: ".$count."<br>";
+		// foreach ($art_id as $value) {
+		// 	# code...
+		// 	$category_id = $value["article_cat_id"];
+		// 	//echo "category_id: ".$category_id."<br>";
+		// 	$cat_sql = "SELECT title FROM category WHERE cat_id=$category_id";
+		// 	$category = $this->selectAll($cat_sql);
+		// 	echo "category: ";
+		// 	var_dump($category);
+		// 	return $category;
 		// }
+		var_dump($art_id);
+		return $art_id;
 	}
 
 	public function count_records()

@@ -32,6 +32,17 @@
 
             <div>
                 <div>
+                    <p> {{ "Category:" }} </p>
+                    <select name="{{ 'art_cat[]' }}" multiple>
+                        {% for category in categories %}
+                            <option value={{ category.cat_id }} selected> {{ category.title }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <div>
                     <p> {{ "Description:" }} </p>
                         <textarea name='edit_art_desc' id="edit_art_desc"> {{ output.description }} </textarea>
                 </div>
