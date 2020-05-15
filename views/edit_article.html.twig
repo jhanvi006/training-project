@@ -33,9 +33,13 @@
             <div>
                 <div>
                     <p> {{ "Category:" }} </p>
-                    <select name="{{ 'art_cat[]' }}" multiple>
+                    <select name="{{ 'edit_art_cat[]' }}" multiple>
                         {% for category in categories %}
-                            <option value={{ category.cat_id }} selected> {{ category.title }} </option>
+                            {% if category.title in selected_cat %}
+                                <option value={{ category.cat_id }} selected> {{ category.title }} </option>
+                            {% else %}
+                                <option value={{ category.cat_id }}> {{ category.title }} </option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>

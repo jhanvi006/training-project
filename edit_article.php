@@ -16,7 +16,14 @@
 
         $sql = "SELECT article_cat_id FROM article_categories WHERE article_id='".$_GET["art_id"]."'";
         $cat_id = $article->selectAll($sql);
-        echo $cat_id;
+
+        foreach ($cat_id as $category_id) {
+            $sel_cat_id = $category_id["article_cat_id"];
+            echo $sel_cat_id."<br>";
+            $selected_cat[] = $article->getSelectedCategory($sel_cat_id);
+        }
+        // echo "selected_cat:";
+        // var_dump($selected_cat);
         $categories = $article->getCategory();
 
         if(!empty($_POST))
@@ -27,6 +34,8 @@
             if(empty($_POST["edit_art_desc"]))
                 $errors[] = "Error: Description is empty!";
 
+            if(empty($_POST["edit_art_cat"]))
+                $errors[] = "Error: Select at least one category!";
             // var_dump($_FILES["edit_art_image"]);
             // echo "<br>";
             // echo(empty($_FILES["edit_art_image"]));
@@ -44,7 +53,7 @@
             // }
             //     //$errors[] = "Error: No image is selected!";
             //else 
-                if(!isset($_FILES["edit_art_image"]) && $_FILES["edit_art_image"]["type"] != "image/jpeg" && $_FILES["edit_art_image"]["type"] != "image/jpg" && $_FILES["edit_art_image"]["type"] != "image/png") {
+            if(!isset($_FILES["edit_art_image"]) && $_FILES["edit_art_image"]["type"] != "image/jpeg" && $_FILES["edit_art_image"]["type"] != "image/jpg" && $_FILES["edit_art_image"]["type"] != "image/png") {
                 $errors[] = "Error2: Invalid file. Please choose a JPEG or PNG file!";
             }
             //var_dump($_FILES["edit_art_image"]);
@@ -86,7 +95,7 @@
             }
         }
         
-        echo $twig->render('edit_article.html.twig', ['output' => $output, 'categories' => $categories, 'target_thumb_file' => $target_thumb_file,'errors' => $errors]);
+        echo $twig->render('edit_article.html.twig', ['output' => $output, 'categories' => $categories, 'selected_cat' => $selected_cat, 'target_thumb_file' => $target_thumb_file,'errors' => $errors]);
     }
     else
     {

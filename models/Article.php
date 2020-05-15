@@ -24,24 +24,35 @@ class Article extends database
 		$sql = "SELECT article_cat_id FROM article_categories WHERE article_id=$id";
 		//echo $sql."<br>";
 		$art_id = $this->selectAll($sql);
-		// $count = count($art_id);
-		// // var_dump($art_id);
-		// // echo "<br>";
-
-		// // 	echo "key: ".key($art_id)."<br>";
-		// // 	echo "count: ".$count."<br>";
-		// foreach ($art_id as $value) {
-		// 	# code...
-		// 	$category_id = $value["article_cat_id"];
-		// 	//echo "category_id: ".$category_id."<br>";
-		// 	$cat_sql = "SELECT title FROM category WHERE cat_id=$category_id";
-		// 	$category = $this->selectAll($cat_sql);
-		// 	echo "category: ";
-		// 	var_dump($category);
-		// 	return $category;
-		// }
-		var_dump($art_id);
-		return $art_id;
+		// var_dump($art_id);
+		// echo "<br> count:".(count($art_id))."<br>";
+			
+		//echo $offset." ".$record_limit;
+		// for ($i=0; $i < $record_limit; $i++) 
+		// { 
+			foreach ($art_id as $value) 
+			{
+				$category_id = $value["article_cat_id"];
+				//echo "category_id: ".$category_id."<br>";
+				$cat_sql = "SELECT title FROM category WHERE cat_id=$category_id";
+				$category = $this->selectAll($cat_sql);
+				// echo "<br> category: ";
+				// var_dump($category);
+				// echo "<br> key:";
+				// var_dump(array_values($category));
+				// echo "<br>";
+				//return $category;
+				foreach ($category as $values) {
+					$cat_title[] = $values["title"];
+					// echo "<br> cat_title: ";
+					// var_dump($cat_title);
+				}
+				$all_category[] = $cat_title;
+				echo "category:";
+				var_dump($all_category);
+				echo "<br>";
+			}
+		//}
 	}
 
 	public function count_records()
@@ -110,6 +121,17 @@ class Article extends database
 		return $result;
 	}
 
+	public function getSelectedCategory($sel_cat_id)
+	{
+		//foreach ($cat_id as $category_id) {
+			$sql = "SELECT title FROM category WHERE cat_id=$sel_cat_id";
+			$category = $this->selectOne($sql);
+			// echo "category:";
+			// var_dump($category["title"]);
+		//}
+		//var_dump($category);
+			return $category["title"];
+	}
 
 	public function addCategory($id, $category_id)
 	{
