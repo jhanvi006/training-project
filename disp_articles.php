@@ -30,14 +30,18 @@ if(!empty($_SESSION["admin_email"]))
 		$offset = 0;
 	}
 	$output = $article->display_article($record_limit, $offset);
+
+	$img_sql = "SELECT * FROM article_image LIMIT $offset,$record_limit";
+    $img = $article->selectAll($img_sql);
+    $disp_thumb_img = $img["thumb_img_path"];
+    var_dump($disp_thumb_img);
 	//var_dump($output);
 	foreach ($output as $values) {
 		//echo $values["article_id"]."<br>";
 		$cat_output = $article->display_category($values["article_id"],$record_limit, $offset);
-		//echo "<br> cat_output:";
-		//var_dump($cat_output);
-		// var_dump($art_id);
-		//echo "<br>";
+		// echo "<br> cat_output:";
+		// var_dump($cat_output);
+		// echo "<br>";
 
 		// 	echo "key: ".key($art_id)."<br>";target_thumb_file
 		// foreach ($cat_output as $value) 
@@ -57,7 +61,7 @@ if(!empty($_SESSION["admin_email"]))
 		// }
 	}
 
-	echo $twig->render('disp_articles.html.twig', ['output' => $output, 'cat_title' => $cat_title, 'page' => $page, 'last' => $last, 'countRecords' => $countRecords, 'record_limit' => $record_limit]);
+	echo $twig->render('disp_articles.html.twig', ['output' => $output, 'cat_output' => $cat_output, 'page' => $page, 'last' => $last, 'countRecords' => $countRecords, 'record_limit' => $record_limit]);
 }
 else
 {

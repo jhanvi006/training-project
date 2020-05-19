@@ -12,20 +12,25 @@
     {
         $article = new Article();
         $sql = "SELECT * FROM article WHERE article_id='".$_GET["art_id"]."'";
-        $output = $article->SelectOne($sql);
+        $output = $article->selectOne($sql);
 
-        $sql = "SELECT article_cat_id FROM article_categories WHERE article_id='".$_GET["art_id"]."'";
-        $cat_id = $article->selectAll($sql);
+        $cat_sql = "SELECT article_cat_id FROM article_categories WHERE article_id='".$_GET["art_id"]."'";
+        $cat_id = $article->selectAll($cat_sql);
 
         foreach ($cat_id as $category_id) {
             $sel_cat_id = $category_id["article_cat_id"];
             //echo $sel_cat_id."<br>";
             $selected_cat[] = $article->getSelectedCategory($sel_cat_id);
         }
-        // echo "selected_cat:";
-        // var_dump($selected_cat);
         $categories = $article->getCategory();
 
+        $img_sql = "SELECT * FROM article_image WHERE article_id='".$_GET["art_id"]."'";
+        $img = $article->selectOne($img_sql);
+        $disp_thumb_img = $img["thumb_img_path"];
+        // $target_file = $img["org_img_path"];
+        echo $disp_thumb_img;
+
+        //echo !empty($_FILES["edit_art_image"]);
         if(!empty($_POST))
         {
             if(empty($_POST["edit_art_title"]))
@@ -39,9 +44,8 @@
                 $_POST["edit_art_cat"] = $selected_cat;
                 //var_dump($_POST["edit_art_cat"]);
             }
-
                 //$errors[] = "Error: Select at least one category!";
-        
+            //var_dump($_FILES["edit_art_image"]);
             if(!isset($_FILES["edit_art_image"]) && $_FILES["edit_art_image"]["type"] != "image/jpeg" && $_FILES["edit_art_image"]["type"] != "image/jpg" && $_FILES["edit_art_image"]["type"] != "image/png") {
                 $errors[] = "Error2: Invalid file. Please choose a JPEG or PNG file!";
             }
@@ -50,19 +54,26 @@
             {
                 $title = $_POST["edit_art_title"];
                 $desc = $_POST["edit_art_desc"];
-                
                 $id = $output["article_id"];
-                $extension = pathinfo($_FILES["edit_art_image"]["name"], PATHINFO_EXTENSION);
-                $img_name = "orig_".$id.".".$extension;
-                $thumb_img_name = "thumb_".$id.".".$extension;
-                $fileType = $_FILES["edit_art_image"]["type"];
-                $target_dir = "images/upload_images/";
-                $target_file = $target_dir.$img_name;
-                $thumb_dir = "images/upload_image_thumb/";
-                $target_thumb_file = $thumb_dir.$thumb_img_name;
+                
+                if(empty($_FILES["edit_art_image"]))
+                {    
+                    $extension = pathinfo($output["image"], PATHINFO_EXTENSION);
+                }
+                else
+                {
+                    $extension = pathinfo($_FILES["edit_art_image"]["name"], PATHINFO_EXTENSION);
+                }
+                    $img_name = "orig_".$id.".".$extension;
+                    $thumb_img_name = "thumb_".$id.".".$extension;
+                    $fileType = $_FILES["edit_art_image"]["type"];
+                    $target_dir = "images/upload_images/";
+                    $target_file = $target_dir.$img_name;
+                    $thumb_dir = "images/upload_image_thumb/";
+                    $target_thumb_file = $thumb_dir.$thumb_img_name;
 
                 $update = $article->edit_article($title, $desc, $target_file, $id);
-                if ($update) {
+                if ($update && (!empty($_FILES["edit_art_image"]))) {
                     move_uploaded_file($_FILES['edit_art_image']['tmp_name'],$target_file);
                     $article->edit_article_category($id, $_POST["edit_art_cat"], $cat_id);
                     $thumb_img = $article->createThumbImg($target_file, $target_thumb_file, $fileType, 50, 50);
@@ -83,8 +94,8 @@
                 }
             }
         }
-        
-        echo $twig->render('edit_article.html.twig', ['output' => $output, 'categories' => $categories, 'selected_cat' => $selected_cat, 'target_thumb_file' => $target_thumb_file,'errors' => $errors]);
+        //echo $target_thumb_file;
+        echo $twig->render('edit_article.html.twig', ['output' => $output, 'categories' => $categories, 'selected_cat' => $selected_cat, 'disp_thumb_img' => $disp_thumb_img,'errors' => $errors]);
     }
     else
     {

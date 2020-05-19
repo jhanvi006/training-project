@@ -43,15 +43,16 @@ class Article extends database
 				// echo "<br>";
 				//return $category;
 				foreach ($category as $values) {
-					$cat_title[] = $values["title"];
+					$cat_title = $values["title"];
 					// echo "<br> cat_title: ";
 					// var_dump($cat_title);
+					$all_category[] = $cat_title;
 				}
-				$all_category[] = $cat_title;
 			}
-				echo "category:";
-				var_dump($all_category);
-				echo "<br>";
+			// echo "category:";
+			// var_dump($all_category);
+			// echo "<br>";
+			return $all_category;
 		//}
 	}
 
