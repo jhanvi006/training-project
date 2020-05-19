@@ -39,7 +39,7 @@ if(!empty($_SESSION["admin_email"]))
 		// var_dump($art_id);
 		//echo "<br>";
 
-		// 	echo "key: ".key($art_id)."<br>";
+		// 	echo "key: ".key($art_id)."<br>";target_thumb_file
 		// foreach ($cat_output as $value) 
 		// {
 		// 	$category_id = $value["article_cat_id"];

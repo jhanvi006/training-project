@@ -48,10 +48,10 @@ class Article extends database
 					// var_dump($cat_title);
 				}
 				$all_category[] = $cat_title;
+			}
 				echo "category:";
 				var_dump($all_category);
 				echo "<br>";
-			}
 		//}
 	}
 
@@ -73,6 +73,20 @@ class Article extends database
 		return $result;
 	}
 
+	public function edit_article_category($id, $sel_cat_id, $cat_id)
+	{
+		foreach ($cat_id as $category_id) {
+			$c_id[] = $category_id["article_cat_id"];
+		}
+		foreach ($c_id as $category_id) {
+			$del_sql = "DELETE FROM article_categories WHERE article_id='$id' AND article_cat_id='$category_id'";
+			$result = $this->execute($del_sql);			
+		}
+		foreach ($sel_cat_id as $category_id) {
+			$sql = "INSERT INTO article_categories(article_id, article_cat_id) VALUES($id, $category_id)";
+			$category = $this->execute($sql);
+		}
+	}
 
 	public function delete_article($art_id, $thumb_file)
 	{
@@ -142,7 +156,7 @@ class Article extends database
 			// $get_cat_id = "SELECT cat_id FROM category WHERE title='$cat'";
 			// $category_id = $this->selectOne($get_cat_id);
 			// $add_cat_id = $category_id["cat_id"];
-			// var_dump($add_cat_id);
+			// var_dump($add_catedit_article_category_id);
 			$sql = "INSERT INTO article_categories(article_id, article_cat_id) VALUES($id, $category_id)";
 			$category = $this->execute($sql);
 		}

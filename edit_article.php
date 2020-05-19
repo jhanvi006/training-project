@@ -19,7 +19,7 @@
 
         foreach ($cat_id as $category_id) {
             $sel_cat_id = $category_id["article_cat_id"];
-            echo $sel_cat_id."<br>";
+            //echo $sel_cat_id."<br>";
             $selected_cat[] = $article->getSelectedCategory($sel_cat_id);
         }
         // echo "selected_cat:";
@@ -35,28 +35,16 @@
                 $errors[] = "Error: Description is empty!";
 
             if(empty($_POST["edit_art_cat"]))
-                $errors[] = "Error: Select at least one category!";
-            // var_dump($_FILES["edit_art_image"]);
-            // echo "<br>";
-            // echo(empty($_FILES["edit_art_image"]));
-            // echo "<br>";
-            //echo mime_content_type($output["image"])."<br>";
-            // var_dump($_FILES["edit_art_image"]);
-            // if(empty($_FILES["edit_art_image"]))
-            // {
-            //     $file = $output["image"];
-            //     //echo $_FILES["edit_art_image"];
-            //     $ext = mime_content_type($file);
-            //     if($ext != "image/jpeg" && $ext != "image/jpg" && $ext != "image/png")
-            //         $errors[] = "Error1: Invalid file. Please choose a JPEG or PNG file!";
-            //     //echo "<br>".$ext;
-            // }
-            //     //$errors[] = "Error: No image is selected!";
-            //else 
+            {
+                $_POST["edit_art_cat"] = $selected_cat;
+                //var_dump($_POST["edit_art_cat"]);
+            }
+
+                //$errors[] = "Error: Select at least one category!";
+        
             if(!isset($_FILES["edit_art_image"]) && $_FILES["edit_art_image"]["type"] != "image/jpeg" && $_FILES["edit_art_image"]["type"] != "image/jpg" && $_FILES["edit_art_image"]["type"] != "image/png") {
                 $errors[] = "Error2: Invalid file. Please choose a JPEG or PNG file!";
             }
-            //var_dump($_FILES["edit_art_image"]);
 
             if(empty($errors))
             {
@@ -69,13 +57,14 @@
                 $thumb_img_name = "thumb_".$id.".".$extension;
                 $fileType = $_FILES["edit_art_image"]["type"];
                 $target_dir = "images/upload_images/";
-                $target_file = $target_dir.$img_name.".".$fileType;
+                $target_file = $target_dir.$img_name;
                 $thumb_dir = "images/upload_image_thumb/";
-                $target_thumb_file = $thumb_dir.$thumb_img_name.".".$fileType;
+                $target_thumb_file = $thumb_dir.$thumb_img_name;
 
                 $update = $article->edit_article($title, $desc, $target_file, $id);
                 if ($update) {
                     move_uploaded_file($_FILES['edit_art_image']['tmp_name'],$target_file);
+                    $article->edit_article_category($id, $_POST["edit_art_cat"], $cat_id);
                     $thumb_img = $article->createThumbImg($target_file, $target_thumb_file, $fileType, 50, 50);
                     if($thumb_img)
                     {
