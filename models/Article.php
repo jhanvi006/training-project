@@ -115,7 +115,7 @@ class Article extends database
 		$sql = "INSERT INTO article_image(article_id, org_img_path, thumb_img_path) VALUES($id, '$target_file', '$target_thumb_file')";
 		//echo "1.".$sql;
 		$save_img = $this->execute($sql);
-		var_dump($save_img);
+		//var_dump($save_img);
 		return $save_img;
 	}
 

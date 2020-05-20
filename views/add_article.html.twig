@@ -59,10 +59,9 @@
 
             <div>
                 <div>
-                    <p> {{ "Image:" }} 
-                        <input type="{{ type|default('file') }}" name="{{ 'art_image' }}" onchange="preview_image(event)" />
-                        <img id="imgId" width="50" height="50" />
-                    </p>
+                    <p> {{ "Image:" }} </p>
+                    <img id="imgId" width="50" height="50" />
+                    <input type="{{ type|default('file') }}" name="{{ 'art_image' }}" onchange="preview_image(event)" />
                 </div>
             </div>
 

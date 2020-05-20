@@ -15,21 +15,36 @@
     <body>
 
         <b> {{ "Articles:" }} </b>
-        <table border="1" width="600">
+        <br>
+        <table border="1" style="display: inline-block;">
             <tr>
                 <th> {{ "Category" }} </th>
+            </tr>
+            {% for values in cat_output %}
+                <tr>
+                    <td>
+                        <ul>
+                            {% for category in values %}
+                                <li>
+                                    {{  category }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <table border="1" style="display: inline-block;">
+            <tr>
                 <th> {{ "Title" }} </th>
                 <th> {{ "Description" }} </th>
                 <th> {{ "Images" }} </th>
                 <th> </th>
             </tr>
 
-            {{dump(cat_output)}}
             {% for values in output %}
                 <tr>    
-                    <td>
-                        {{ "sdcds" }}
-                    </td>
                     <td> {{ values.title }} </td>
                     <td> {{ values.description }} </td>
                     <td> <img src="{{ values.image }}" width="50" height="50"> </td>
@@ -44,7 +59,7 @@
                 </tr>
             {% endfor %}
         </table>
-
+        <br>
         {% if countRecords>record_limit %}
             {% if page != 1 %} 
                 <a href = "disp_articles.php?page=1"> 

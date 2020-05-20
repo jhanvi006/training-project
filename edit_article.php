@@ -44,7 +44,7 @@
                 $_POST["edit_art_cat"] = $selected_cat;
                 //var_dump($_POST["edit_art_cat"]);
             }
-                //$errors[] = "Error: Select at least one category!";
+            //$errors[] = "Error: Select at least one category!";
             //var_dump($_FILES["edit_art_image"]);
             if(!isset($_FILES["edit_art_image"]) && $_FILES["edit_art_image"]["type"] != "image/jpeg" && $_FILES["edit_art_image"]["type"] != "image/jpg" && $_FILES["edit_art_image"]["type"] != "image/png") {
                 $errors[] = "Error2: Invalid file. Please choose a JPEG or PNG file!";
@@ -56,7 +56,7 @@
                 $desc = $_POST["edit_art_desc"];
                 $id = $output["article_id"];
                 
-                if(empty($_FILES["edit_art_image"]))
+                if(empty($_FILES["edit_art_image"]["name"]))
                 {    
                     $extension = pathinfo($output["image"], PATHINFO_EXTENSION);
                 }
