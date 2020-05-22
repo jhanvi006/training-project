@@ -14,46 +14,10 @@ class Article extends database
 
 	public function display_article($record_limit, $offset)
 	{
-		$sql = "SELECT * FROM article LIMIT $offset, $record_limit";
+		$sql = "SELECT a.article_id, a.title, a.description, GROUP_CONCAT(c.title) AS article_categories, ai.thumb_img_path FROM article a JOIN article_image ai ON a.article_id=ai.article_id JOIN article_categories ac ON a.article_id = ac.article_id JOIN category c ON c.cat_id = ac.article_cat_id GROUP BY a.article_id LIMIT $offset,$record_limit";
 		$result = $this->selectAll($sql);
+		//var_dump($result);
 		return $result;
-	}
-
-	public function display_category($id, $record_limit, $offset)
-	{
-		$sql = "SELECT article_cat_id FROM article_categories WHERE article_id=$id";
-		//echo $sql."<br>";
-		$art_id = $this->selectAll($sql);
-		// var_dump($art_id);
-		// echo "<br> count:".(count($art_id))."<br>";
-			
-		//echo $offset." ".$record_limit;
-		// for ($i=0; $i < $record_limit; $i++) 
-		// { 
-			foreach ($art_id as $value) 
-			{
-				$category_id = $value["article_cat_id"];
-				//echo "category_id: ".$category_id."<br>";
-				$cat_sql = "SELECT title FROM category WHERE cat_id=$category_id";
-				$category = $this->selectAll($cat_sql);
-				// echo "<br> category: ";
-				// var_dump($category);
-				// echo "<br> key:";
-				// var_dump(array_values($category));
-				// echo "<br>";
-				//return $category;
-				foreach ($category as $values) {
-					$cat_title = $values["title"];
-					// echo "<br> cat_title: ";
-					// var_dump($cat_title);
-					$all_category[] = $cat_title;
-				}
-			}
-			// echo "category:";
-			// var_dump($all_category);
-			// echo "<br>";
-			return $all_category;
-		//}
 	}
 
 	public function count_records()
@@ -97,6 +61,12 @@ class Article extends database
 		$result = $this->execute($sql);
 		if($result == TRUE)
 		{
+			$category_sql = "DELETE FROM article_categories WHERE article_id='$art_id'";
+			$this->execute($category_sql);
+
+			$img_sql = "DELETE FROM article_image WHERE article_id='$art_id'";
+			$this->execute($img_sql);
+
 			unlink($result_select["image"]);
 			unlink($thumb_file);
 		}
