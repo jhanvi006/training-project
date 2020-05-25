@@ -1,0 +1,27 @@
+{% include 'header.html.twig' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            
+        </title>
+    </head>
+    <body>
+
+        <table border="1" width="600">
+            <tr>
+                <th> {{ "Title" }} </th>
+                <th> {{ "Description" }} </th>
+                <th> {{ "Images" }} </th>
+            </tr>
+
+            <tr>    
+                <td> {{ output.title }} </td>
+                <td> <p> {{ output.description }} <p> </td>
+                <td> <img src="{{ output.thumb_img_path }}"> </td>
+            </tr>
+
+        </table>
+        <br>
+    </body>
+</html>

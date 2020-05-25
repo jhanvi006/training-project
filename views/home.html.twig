@@ -10,7 +10,7 @@
 
         <p> <b> {{ "Articles:" }} </b> </p>
         
-        <table border="1" style="display: inline-block;">
+        <table border="1" width="600">
             <tr>
                 <th> {{ "Title" }} </th>
                 <th> {{ "Description" }} </th>
@@ -20,7 +20,7 @@
             {% for values in output %}
                 <tr>    
                     <td> {{ values.title }} </td>
-                    <td> <p class="show-read-more"> {{ values.description }} <p> </td>
+                    <td> <p> {{ values.excerpt }} <a href="readArticle.php?art_id={{ values.article_id }}">Read More</a> <p> </td>
                     <td> <img src="{{ values.thumb_img_path }}"> </td>
                 </tr>
             {% endfor %}

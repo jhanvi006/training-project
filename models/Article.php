@@ -16,7 +16,6 @@ class Article extends database
 	{
 		$sql = "SELECT a.article_id, a.title, a.description, GROUP_CONCAT(c.title) AS article_categories, ai.thumb_img_path FROM article a JOIN article_image ai ON a.article_id=ai.article_id JOIN article_categories ac ON a.article_id = ac.article_id JOIN category c ON c.cat_id = ac.article_cat_id GROUP BY a.article_id LIMIT $offset,$record_limit";
 		$result = $this->selectAll($sql);
-		//var_dump($result);
 		return $result;
 	}
 
@@ -178,5 +177,4 @@ class Article extends database
 			}
 		}
 	}
-
 }
