@@ -20,7 +20,7 @@
             {% for values in output %}
                 <tr>    
                     <td> {{ values.title }} </td>
-                    <td> <p> {{ values.excerpt }} <a href="readArticle.php?art_id={{ values.article_id }}">Read More</a> <p> </td>
+                    <td> <p> {{ values.excerpt | raw }} <a href="readArticle.php?art_id={{ values.article_id }}">Read More</a> <p> </td>
                     <td> <img src="{{ values.thumb_img_path }}"> </td>
                 </tr>
             {% endfor %}

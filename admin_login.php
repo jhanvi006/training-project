@@ -36,7 +36,7 @@
                 $_SESSION["fname"] = $user_name["username"];
                 //$_SESSION["lname"] = $user_name["last_name"];
                 
-                header("location: disp_category.php");
+                header("location: disp_articles.php");
             }
             else
             {

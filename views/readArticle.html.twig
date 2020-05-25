@@ -17,7 +17,7 @@
 
             <tr>    
                 <td> {{ output.title }} </td>
-                <td> <p> {{ output.description }} <p> </td>
+                <td> <p> {{ output.description | raw }} <p> </td>
                 <td> <img src="{{ output.thumb_img_path }}"> </td>
             </tr>
 

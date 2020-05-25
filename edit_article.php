@@ -28,7 +28,7 @@
         $img = $article->selectOne($img_sql);
         $disp_thumb_img = $img["thumb_img_path"];
         // $target_file = $img["org_img_path"];
-        echo $disp_thumb_img;
+        //echo $disp_thumb_img;
 
         //echo !empty($_FILES["edit_art_image"]);
         if(!empty($_POST))
