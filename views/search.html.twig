@@ -1,19 +1,100 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Live Search using AJAX</title>
+        <title> </title>
 
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script type="text/javascript" src="script.js"></script>
-        <link rel="stylesheet" type="text/css" href="style.css">
-   </head>
-   <body>
-      <input type="text" id="search" placeholder="Search" />
-      <br>
-      <!-- <b>Ex: </b><i>David, Ricky, Ronaldo, Messi, Watson, Robot</i> -->
-      <br />
-      <div id="display"></div>
-   </body>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+        
+    </head>
+    <body>
+        <div>
+            <div style="display: inline-block;">
+                <p> {{ "Category:" }} 
+                    <select name="{{ 'category' }}">
+                        {% for category in categories %}
+                                <option value={{ category.cat_id }}> {{ category.title }} </option>
+                        {% endfor %}
+                    </select>
+                </p>
+            </div>
+            <div style="display: inline-block;">
+                <input type="text" id="search_text" name="search_text" placeholder="Search" />
+            </div>
+        </div>
+
+        <div id="result">
+        <!-- <div> -->
+            <table border="1" width="800">
+                <tr>
+                    <th> {{ "Category" }} </th>
+                    <th> {{ "Title" }} </th>
+                    <th> {{ "Description" }} </th>
+                    <th> {{ "Images" }} </th>
+                </tr>
+
+                {% for values in output %}
+                    <tr>    
+                        <td> {{ values.article_categories }} </td>
+                        <td> {{ values.title }} </td>
+                        <td> {{ values.description | raw }} </td>
+                        <td> <img src="{{ values.thumb_img_path }}"> </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <!-- <br>
+            {% if countRecords>record_limit %}
+                {% if page != 1 %} 
+                    <a href = "search.php?page=1"> 
+                        {{ "First" }}
+                    </a>
+                {% endif %}
+                {% if page>=2 and page<=last %}
+                    <a href = "search.php?page={{ page-1 }}"> 
+                        {{ page-1 }} 
+                    </a>
+                    <a href = "search.php?page={{ page }}"> 
+                        {{ page }} 
+                    </a>
+                {% endif %}
+                {% if page != last %}
+                    <a href = "search.php?page={{ page+1 }}"> 
+                        {{ page+1 }} 
+                    </a>
+                    <a href = "search.php?page={{ last }}"> 
+                        {{ "Last" }} 
+                    </a>
+                {% endif %}
+            {% endif %} -->
+        </div>
+    </body>
+
+    <script>
+        $(document).ready(function(){
+
+            load_data();
+
+            function load_data(query)
+            {
+                $.ajax({
+                    url:"search.php",
+                    method:"POST",
+                    data:{query:query},
+                    success:function(data)
+                    {
+                        $('#result').html(data);
+                    }
+                });
+            }
+            $('#search_text').keyup(function(){
+                var search = $(this).val();
+                if(search != '')
+                    load_data(search);
+                else
+                    load_data();
+            });
+        });
+    </script>
 </html>
-
-<!-- https://www.cloudways.com/blog/live-search-php-mysql-ajax/ -->

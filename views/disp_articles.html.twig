@@ -29,7 +29,7 @@
                 <tr>    
                     <td> {{ values.article_categories }} </td>
                     <td> {{ values.title }} </td>
-                    <td> {{ values.description }} </td>
+                    <td> {{ values.description | raw }} </td>
                     <td> <img src="{{ values.thumb_img_path }}"> </td>
                     <td> 
                         <a href="edit_article.php?art_id={{ values.article_id }}">
