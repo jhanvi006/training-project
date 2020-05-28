@@ -8,14 +8,19 @@
         <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
         
+        <!-- <style type="text/css">
+            #result{
+                visibility: hidden;
+            }
+        </style> -->
     </head>
     <body>
         <div>
             <div style="display: inline-block;">
                 <p> {{ "Category:" }} 
-                    <select name="{{ 'category' }}">
+                    <select id="multi_select_category" name="{{ 'category[]' }}" multiple>
                         {% for category in categories %}
-                                <option value={{ category.cat_id }}> {{ category.title }} </option>
+                                <option value={{ category.title }}> {{ category.title }} </option>
                         {% endfor %}
                     </select>
                 </p>
@@ -35,16 +40,18 @@
                     <th> {{ "Images" }} </th>
                 </tr>
 
-                {% for values in output %}
-                    <tr>    
-                        <td> {{ values.article_categories }} </td>
-                        <td> {{ values.title }} </td>
-                        <td> {{ values.description | raw }} </td>
-                        <td> <img src="{{ values.thumb_img_path }}"> </td>
-                    </tr>
+                {% for output_value in output %}
+                    {% for values in output_value %}
+                        <tr>    
+                            <td> {{ values.article_categories }} </td>
+                            <td> {{ values.title }} </td>
+                            <td> {{ values.description | raw }} </td>
+                            <td> <img src="{{ values.thumb_img_path }}"> </td>
+                        </tr>
+                    {% endfor %}
                 {% endfor %}
             </table>
-            <!-- <br>
+            <br>
             {% if countRecords>record_limit %}
                 {% if page != 1 %} 
                     <a href = "search.php?page=1"> 
@@ -67,27 +74,34 @@
                         {{ "Last" }} 
                     </a>
                 {% endif %}
-            {% endif %} -->
+            {% endif %}
         </div>
     </body>
 
     <script>
         $(document).ready(function(){
 
-            load_data();
-
+            //load_data();
+            
             function load_data(query)
             {
                 $.ajax({
                     url:"search.php",
                     method:"POST",
-                    data:{query:query},
+                    data: {query:query},
                     success:function(data)
                     {
+                        //document.getElementById("result").style.visibility = "visible";
                         $('#result').html(data);
                     }
                 });
             }
+            $('#multi_select_category').change(function(){
+                //$('#hidden_country').val($('#multi_select_category').val());
+                var query = $('#multi_select_category').val();
+                load_data(query);
+            });
+
             $('#search_text').keyup(function(){
                 var search = $(this).val();
                 if(search != '')
@@ -95,6 +109,7 @@
                 else
                     load_data();
             });
+            //load_data(query, search);
         });
     </script>
 </html>
