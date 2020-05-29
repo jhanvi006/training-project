@@ -8,73 +8,69 @@
         <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
         
-        <!-- <style type="text/css">
-            #result{
-                visibility: hidden;
-            }
-        </style> -->
     </head>
     <body>
         <div>
-            <div style="display: inline-block;">
-                <p> {{ "Category:" }} 
-                    <select id="multi_select_category" name="{{ 'category[]' }}" multiple>
-                        {% for category in categories %}
-                                <option value={{ category.title }}> {{ category.title }} </option>
+            <div>
+                <div style="display: inline-block;">
+                    <p> {{ "Category:" }} 
+                        <select id="multi_select_category" name="{{ 'category[]' }}" multiple>
+                            {% for category in categories %}
+                                    <option value={{ category.title }}> {{ category.title }} </option>
+                            {% endfor %}
+                        </select>
+                    </p>
+                </div>
+                <div style="display: inline-block;">
+                    <input type="text" id="search_text" name="search_text" placeholder="Search" />
+                </div>
+            </div>
+
+            <div id="result">
+                <table border="1" width="800">
+                    <tr>
+                        <th> {{ "Category" }} </th>
+                        <th> {{ "Title" }} </th>
+                        <th> {{ "Description" }} </th>
+                        <th> {{ "Images" }} </th>
+                    </tr>
+
+                    {% for output_value in output %}
+                        {% for values in output_value %}
+                            <tr>    
+                                <td> {{ values.article_categories }} </td>
+                                <td> {{ values.title }} </td>
+                                <td> {{ values.description | raw }} </td>
+                                <td> <img src="{{ values.thumb_img_path }}"> </td>
+                            </tr>
                         {% endfor %}
-                    </select>
-                </p>
-            </div>
-            <div style="display: inline-block;">
-                <input type="text" id="search_text" name="search_text" placeholder="Search" />
-            </div>
-        </div>
-
-        <div id="result">
-        <!-- <div> -->
-            <table border="1" width="800">
-                <tr>
-                    <th> {{ "Category" }} </th>
-                    <th> {{ "Title" }} </th>
-                    <th> {{ "Description" }} </th>
-                    <th> {{ "Images" }} </th>
-                </tr>
-
-                {% for output_value in output %}
-                    {% for values in output_value %}
-                        <tr>    
-                            <td> {{ values.article_categories }} </td>
-                            <td> {{ values.title }} </td>
-                            <td> {{ values.description | raw }} </td>
-                            <td> <img src="{{ values.thumb_img_path }}"> </td>
-                        </tr>
                     {% endfor %}
-                {% endfor %}
-            </table>
-            <br>
-            {% if countRecords>record_limit %}
-                {% if page != 1 %} 
-                    <a href = "search.php?page=1"> 
-                        {{ "First" }}
-                    </a>
+                </table>
+                <br>
+                {% if countRecords>record_limit %}
+                    {% if page != 1 %} 
+                        <a href = "search.php?page=1"> 
+                            {{ "First" }}
+                        </a>
+                    {% endif %}
+                    {% if page>=2 and page<=last %}
+                        <a href = "search.php?page={{ page-1 }}"> 
+                            {{ page-1 }} 
+                        </a>
+                        <a href = "search.php?page={{ page }}"> 
+                            {{ page }} 
+                        </a>
+                    {% endif %}
+                    {% if page != last %}
+                        <a href = "search.php?page={{ page+1 }}"> 
+                            {{ page+1 }} 
+                        </a>
+                        <a href = "search.php?page={{ last }}"> 
+                            {{ "Last" }} 
+                        </a>
+                    {% endif %}
                 {% endif %}
-                {% if page>=2 and page<=last %}
-                    <a href = "search.php?page={{ page-1 }}"> 
-                        {{ page-1 }} 
-                    </a>
-                    <a href = "search.php?page={{ page }}"> 
-                        {{ page }} 
-                    </a>
-                {% endif %}
-                {% if page != last %}
-                    <a href = "search.php?page={{ page+1 }}"> 
-                        {{ page+1 }} 
-                    </a>
-                    <a href = "search.php?page={{ last }}"> 
-                        {{ "Last" }} 
-                    </a>
-                {% endif %}
-            {% endif %}
+            </div>
         </div>
     </body>
 
@@ -83,31 +79,29 @@
 
             //load_data();
             
-            function load_data(query)
+            function load_data(cat_value, search_text)
             {
                 $.ajax({
                     url:"search.php",
                     method:"POST",
-                    data: {query:query},
+                    data: {cat_value:cat_value, search_text:search_text},
                     success:function(data)
                     {
-                        //document.getElementById("result").style.visibility = "visible";
                         $('#result').html(data);
                     }
                 });
             }
             $('#multi_select_category').change(function(){
-                //$('#hidden_country').val($('#multi_select_category').val());
-                var query = $('#multi_select_category').val();
-                load_data(query);
+                var cat_value = $('#multi_select_category').val();
+                var search_text = $('#search_text').val();
+                load_data(cat_value, search_text);
             });
 
             $('#search_text').keyup(function(){
-                var search = $(this).val();
-                if(search != '')
-                    load_data(search);
-                else
-                    load_data();
+                var cat_value = $('#multi_select_category').val();
+                var search_text = $(this).val();
+                
+                load_data(cat_value, search_text);
             });
             //load_data(query, search);
         });

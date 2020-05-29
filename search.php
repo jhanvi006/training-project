@@ -25,32 +25,26 @@ else
 	$page = 1;
 	$offset = 0;
 }
-//echo "is array?".is_array($_POST["query"]);
-//var_dump($output);
-// var_dump($_POST["query"]);
-if(is_array($_POST["query"])){
-	foreach ($_POST["query"] as $value) {
-		echo "value:".$value." ";
-		if(!empty($value))
-		{
-			$output[] = $posts->searched_article($value, $record_limit, $offset);
-		}
-	}
-}
-else
-{
-	if(!empty($_POST["query"]))
+
+foreach ($_POST["cat_value"] as $value) {
+	if(!empty($value))
 	{
-		$output[] = $posts->searched_article($_POST["query"], $record_limit, $offset);
-		if(is_null($output))
-		{
-			echo 'Data Not Found';
-		}
+		$output1[] = $posts->searched_article($value, $record_limit, $offset);
 	}
-	// else
-	// {
-	// 	$output = $posts->display_article($record_limit, $offset);
-	// }
 }
+
+if(!empty($_POST["search_text"]))
+{
+	$output1[] = $posts->searched_article($_POST["search_text"], $record_limit, $offset);
+}
+
+foreach ($output1 as $output_value) {
+	$ids = array_column($output_value, 'article_id');
+	$ids = array_unique($ids);
+}
+$output[] = array_filter($output_value, function ($key, $value) use ($ids) {
+    return in_array($value, array_keys($ids));
+}, ARRAY_FILTER_USE_BOTH);
+	
 echo $twig->render('search.html.twig', ['categories' => $categories, 'output' => $output, 'page' => $page, 'last' => $last, 'countRecords' => $countRecords, 'record_limit' => $record_limit]);
 //echo $twig->render('search.html.twig', ['categories' => $categories, 'output' => $output]);
