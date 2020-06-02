@@ -16,7 +16,7 @@
                     <p> {{ "Category:" }} 
                         <select id="multi_select_category" name="{{ 'category[]' }}" multiple>
                             {% for category in categories %}
-                                    <option value={{ category.title }}> {{ category.title }} </option>
+                                    <option value={{ category.cat_id }}> {{ category.title }} </option>
                             {% endfor %}
                         </select>
                     </p>
@@ -25,7 +25,7 @@
                     <input type="text" id="search_text" name="search_text" placeholder="Search" />
                 </div>
             </div>
-
+            <!-- {{ dump(output) }} -->
             <div id="result">
                 <table border="1" width="800">
                     <tr>
@@ -34,6 +34,8 @@
                         <th> {{ "Description" }} </th>
                         <th> {{ "Images" }} </th>
                     </tr>
+
+                    {{ dump(output) }}
 
                     {% for output_value in output %}
                         {% for values in output_value %}
@@ -46,7 +48,8 @@
                         {% endfor %}
                     {% endfor %}
                 </table>
-                <br>
+                <span class="pagination"></span>
+                <!-- <br>
                 {% if countRecords>record_limit %}
                     {% if page != 1 %} 
                         <a href = "search.php?page=1"> 
@@ -69,7 +72,7 @@
                             {{ "Last" }} 
                         </a>
                     {% endif %}
-                {% endif %}
+                {% endif %} -->
             </div>
         </div>
     </body>
@@ -78,19 +81,32 @@
         $(document).ready(function(){
 
             //load_data();
-            
-            function load_data(cat_value, search_text)
+            function load_data(cat_value, search_text, pageId)
             {
+                // if (xhr != null) {
+                //     xhr.abort();
+                //     xhr = null;
+                // }
+                $(".pagination").show();
+                var dataString = 'pageId='+ pageId;
+
                 $.ajax({
                     url:"search.php",
                     method:"POST",
-                    data: {cat_value:cat_value, search_text:search_text},
+                    data: {cat_value:cat_value, search_text:search_text, dataString},
                     success:function(data)
                     {
+                        $(".pagination").hide();
                         $('#result').html(data);
                     }
+                    // error: function(data) {
+                    //     if (data.statusText == 'abort') {
+                    //         return;
+                    //     }
+                    // }
                 });
-            }
+            } 
+
             $('#multi_select_category').change(function(){
                 var cat_value = $('#multi_select_category').val();
                 var search_text = $('#search_text').val();

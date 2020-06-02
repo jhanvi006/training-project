@@ -11,13 +11,13 @@ class Posts extends database
 
 	public function display_article($record_limit, $offset)
 	{
-		$sql = "SELECT a.article_id, a.title, a.description, ai.thumb_img_path FROM article a JOIN article_image ai ON a.article_id=ai.article_id ORDER BY a.created_at DESC LIMIT $offset,$record_limit";
+		$sql = "SELECT a.article_id, a.title, a.description, GROUP_CONCAT(c.title) AS article_categories, ai.thumb_img_path FROM article a JOIN article_image ai ON a.article_id=ai.article_id JOIN article_categories ac ON a.article_id = ac.article_id JOIN category c ON c.cat_id = ac.article_cat_id GROUP BY a.article_id LIMIT $offset, $record_limit";
 		$result = $this->selectAll($sql);
 		return $result;
 	}
 
 	public function excerpt($record_limit, $offset) {
-		$sql = "SELECT a.article_id, a.title, LEFT(a.description,25) AS excerpt, ai.thumb_img_path FROM article a JOIN article_image ai ON a.article_id=ai.article_id ORDER BY a.created_at DESC LIMIT $offset,$record_limit";
+		$sql = "SELECT a.article_id, a.title, LEFT(a.description,25) AS excerpt, ai.thumb_img_path FROM article a JOIN article_image ai ON a.article_id=ai.article_id ORDER BY a.created_at DESC LIMIT $offset, $record_limit";
 		$row = $this->selectAll($sql);
 		// var_dump($row);
 		// echo "<br>";
@@ -44,6 +44,14 @@ class Posts extends database
 		return $result;
 	}
 
+	public function categoryValue($category_id)
+	{
+		$sql = "SELECT title FROM category WHERE cat_id=$category_id";
+		$result = $this->selectOne($sql);
+		var_dump($result["title"]);
+		return $result["title"];
+	}
+
 	public function searched_article($token, $record_limit, $offset)
 	{
 		//var_dump($token);
@@ -54,10 +62,5 @@ class Posts extends database
 		$result = $this->selectAll($sql);
 		return $result;
 	}
-
-	// public function selected_category($token)
-	// {
-
-	// }
 }
 
