@@ -3,8 +3,8 @@
     <head>
         <title> </title>
 
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
         
@@ -25,7 +25,7 @@
                     <input type="text" id="search_text" name="search_text" placeholder="Search" />
                 </div>
             </div>
-            <!-- {{ dump(output) }} -->
+            
             <div id="result">
                 <table border="1" width="800">
                     <tr>
@@ -35,20 +35,38 @@
                         <th> {{ "Images" }} </th>
                     </tr>
 
-                    {{ dump(output) }}
+                    <!-- {{ dump(output) }} -->
 
-                    {% for output_value in output %}
-                        {% for values in output_value %}
-                            <tr>    
-                                <td> {{ values.article_categories }} </td>
-                                <td> {{ values.title }} </td>
-                                <td> {{ values.description | raw }} </td>
-                                <td> <img src="{{ values.thumb_img_path }}"> </td>
-                            </tr>
-                        {% endfor %}
+                    {% for values in output %}
+                        <tr>    
+                            <td> {{ values.article_categories }} </td>
+                            <td> {{ values.title }} </td>
+                            <td> {{ values.description | raw }} </td>
+                            <td> <img src="{{ values.thumb_img_path }}"> </td>
+                        </tr>
                     {% endfor %}
                 </table>
-                <span class="pagination"></span>
+                
+                {% if countRecords>record_limit %}
+                <!-- <div> -->
+                    <ul class="pagination">
+                            {% if last is not empty %}
+                                {% for i in 1..last %}
+                                    {% if i==1 %}
+                                        <li class="pageitem active" id="{{ i }}">
+                                            <a href="JavaScript:Void(0);" data-id="{{ i }}" class="page-link" >{{ i }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="pageitem" id="{{ i }}">
+                                            <a href="JavaScript:Void(0);" class="page-link" data-id="{{ i }}">{{ i }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                    </ul>
+                <!-- </div> -->
+                {% endif %}
+                
                 <!-- <br>
                 {% if countRecords>record_limit %}
                     {% if page != 1 %} 
@@ -79,24 +97,39 @@
 
     <script>
         $(document).ready(function(){
-
+            
+            $(".page-link").click(function(){
+                var id = $(this).attr("data-id");
+                var select_id = $(this).parent().attr("id");
+                $.ajax({
+                    url: "search.php",
+                    type: "GET",
+                    data: {
+                        page : id
+                    },
+                    success: function(data){
+                        $("#result").html(data);
+                        $(".pageitem").removeClass("active");
+                        $("#"+select_id).addClass("active");
+                        
+                    }
+                });
+            });
+            
             //load_data();
-            function load_data(cat_value, search_text, pageId)
+            function load_data(cat_value, search_text)
             {
                 // if (xhr != null) {
                 //     xhr.abort();
                 //     xhr = null;
                 // }
-                $(".pagination").show();
-                var dataString = 'pageId='+ pageId;
 
                 $.ajax({
                     url:"search.php",
                     method:"POST",
-                    data: {cat_value:cat_value, search_text:search_text, dataString},
+                    data: {cat_value:cat_value, search_text:search_text},
                     success:function(data)
                     {
-                        $(".pagination").hide();
                         $('#result').html(data);
                     }
                     // error: function(data) {
