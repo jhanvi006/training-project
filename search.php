@@ -50,17 +50,13 @@ if(!empty($input))
 	foreach ($input as $value) {
 		$output1[] = $posts->searched_article($value, $record_limit, $offset);
 	}
-		echo "<br> output1: ";
-		var_dump($output1);
-		echo "<br>";
-		echo "<br>";
-	foreach ($output1 as $output_value) {
-		echo "<br> output_value:";
-		var_dump($output_value);
-		echo "<br>";
-		$ids = array_column($output_value, 'article_id');
+	// echo "<br> value: ";
+	// var_dump(array_keys($output_value));
+	// echo "<br>";
+	//foreach ($output1 as $output_value) {
+		$ids = array_column($output1, 'article_id');
 		$ids = array_unique($ids);
-	}
+	//}
 
 		var_dump($ids);
 		echo "<br>";
