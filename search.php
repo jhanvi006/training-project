@@ -6,7 +6,8 @@ require_once __DIR__ . "/models/Posts.php";
 $posts = new Posts();
 $categories = $posts->getCategory();
 
-$record_limit = 5;
+$record_limit = 3;
+//$countRecords = 0;
 
 foreach ($_POST["cat_value"] as $value) {
 	if(!empty($value))
@@ -19,12 +20,20 @@ if(!empty($_POST["search_text"]))
 	$input[] = $_POST["search_text"];
 
 if(empty($input))
+{
 	$sql = "SELECT * FROM article";
+	$countRecords = $posts->count_records($sql);
+}
 else
-	$sql = "SELECT a.article_id, a.title, a.description, GROUP_CONCAT(c.title) AS article_categories, ai.thumb_img_path FROM article a JOIN article_image ai ON a.article_id=ai.article_id JOIN article_categories ac ON a.article_id = ac.article_id JOIN category c ON c.cat_id = ac.article_cat_id WHERE c.title LIKE '%".$search_token."%' OR a.title LIKE '%".$search_token."%' OR a.description LIKE '%".$search_token."%' GROUP BY a.article_id";
-$countRecords = $posts->count_records($sql);
+{
+	foreach ($input as $value) {
+		$sql = "SELECT a.article_id, a.title, a.description, GROUP_CONCAT(c.title) AS article_categories, ai.thumb_img_path FROM article a JOIN article_image ai ON a.article_id=ai.article_id JOIN article_categories ac ON a.article_id = ac.article_id JOIN category c ON c.cat_id = ac.article_cat_id WHERE c.title LIKE '%".$value."%' OR a.title LIKE '%".$value."%' OR a.description LIKE '%".$value."%' GROUP BY a.article_id";
+		$countRecords = $countRecords + $posts->count_records($sql);
+	}
+}
 $last = ceil($countRecords / $record_limit);
 
+echo "countRecords: ".$countRecords."<br>";
 if( isset($_GET["page"] ) )
 { 
 	$page = $_GET["page"];

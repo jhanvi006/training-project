@@ -54,11 +54,11 @@
                                 {% for i in 1..last %}
                                     {% if i==1 %}
                                         <li class="pageitem active" id="{{ i }}">
-                                            <a href="JavaScript:Void(0);" data-id="{{ i }}" class="page-link" >{{ i }}</a>
+                                            <a href="search.php?page=1&cat_value={{ cat_value}}" data-id="{{ i }}" class="page-link" >{{ i }}</a>
                                         </li>
                                     {% else %}
                                         <li class="pageitem" id="{{ i }}">
-                                            <a href="JavaScript:Void(0);" class="page-link" data-id="{{ i }}">{{ i }}</a>
+                                            <a href="search.php?page=1&cat_value={{ cat_value}}" class="page-link" data-id="{{ i }}">{{ i }}</a>
                                         </li>
                                     {% endif %}
                                 {% endfor %}
@@ -97,7 +97,7 @@
 
     <script>
         $(document).ready(function(){
-            
+
             $(".page-link").click(function(){
                 var id = $(this).attr("data-id");
                 var select_id = $(this).parent().attr("id");
@@ -119,11 +119,6 @@
             //load_data();
             function load_data(cat_value, search_text)
             {
-                // if (xhr != null) {
-                //     xhr.abort();
-                //     xhr = null;
-                // }
-
                 $.ajax({
                     url:"search.php",
                     method:"POST",
@@ -132,11 +127,6 @@
                     {
                         $('#result').html(data);
                     }
-                    // error: function(data) {
-                    //     if (data.statusText == 'abort') {
-                    //         return;
-                    //     }
-                    // }
                 });
             } 
 
